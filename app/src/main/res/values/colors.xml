@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#602080</color>
+    <color name="primaryLightColor">#904eb0</color>
+    <color name="primaryDarkColor">#310053</color>
+    <color name="secondaryColor">#ffda77</color>
+    <color name="secondaryLightColor">#ffffa8</color>
+    <color name="secondaryDarkColor">#c9a948</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+
+
+    <color name="authTextBgColor">#d9d9de</color>
+    <color name="authTextBgDark">?attr/colorBackgroundFloating</color>
+
+    //light theme colors
+    <color name="surface_light">#f0f0f0</color>
+    <color name="light_pink">#ffabe1</color>
+    <color name="purple">#602080</color>
+    <color name="blue">#6155a6</color>
+    <color name="secondary">#fddb3a</color>
+    <color name="surface">#80DCDCDC</color>
+
+    //dark theme colors
+    <color name="surface_dark">#202040</color>
+    <color name="dark_blue">#202060</color>
+    <color name="dark_purple">#602080</color>
+    <color name="light_purple">#b030b0</color>
+    <color name="deep_blue">#162447</color>
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_graph"
+    app:startDestination="@id/feedFragment">
+
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.vaibhav.sociofy.ui.HomeScreen.feedscreen.FeedFragment"
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.vaibhav.sociofy.ui.HomeScreen.profilescreen.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment">
+            <argument
+                android:name="post_id"
+                android:defaultValue='""' />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.vaibhav.sociofy.ui.HomeScreen.SearchScreen.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.vaibhav.sociofy.ui.HomeScreen.NotificationScreen.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications">
+        <action
+            android:id="@+id/action_notificationsFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/postDetailFragment"
+        android:name="com.vaibhav.sociofy.ui.HomeScreen.PostDetailDialog.PostDetailFragment"
+        android:label="PostDetailFragment">
+        <argument
+            android:name="Post"
+            app:argType="com.vaibhav.sociofy.data.models.Post" />
+        <argument
+            android:name="post_id"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+
+</navigation>

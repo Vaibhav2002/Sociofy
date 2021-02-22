@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Sociofy</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_to_continue">Login to continue</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="don_t_have_an_account">Don\'t have an account</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="username">Username</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
+    <string name="skip">Skip</string>
+    <string name="followers">Followers</string>
+    <string name="posts">Posts</string>
+    <string name="_0">0</string>
+    <string name="following">Following</string>
+    <string name="postimage">postImage</string>
+    <string name="profile_image_transition">profile_image_transition</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
+</resources>

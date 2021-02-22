@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/feedFragment"
+        android:icon="@drawable/home_icon_selector"
+        android:title="Home"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/search_icon_selector"
+        android:title="Search People"
+        app:showAsAction="always" />
+
+
+    <item
+        android:title="placeholder"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/notificationsFragment"
+        android:icon="@drawable/notification_icon_selector"
+        android:title="Notifications"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile_icon_selector"
+        android:title="Home"
+        app:showAsAction="always" />
+
+</menu>
