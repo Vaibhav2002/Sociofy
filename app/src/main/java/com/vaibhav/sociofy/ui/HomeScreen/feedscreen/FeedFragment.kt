@@ -28,7 +28,6 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFeedBinding.bind(view)
-        Timber.d(viewModel.hashCode().toString())
         val feedAdapter = FeedAdapter(userId = viewModel.userId, this)
         binding.postRecycle.apply {
             adapter = feedAdapter
@@ -47,7 +46,6 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
         }
 
         viewModel.feed.observe(viewLifecycleOwner, {
-            Timber.d("New List fetched from snapshot listener")
             feedAdapter.submitList(it)
         })
 

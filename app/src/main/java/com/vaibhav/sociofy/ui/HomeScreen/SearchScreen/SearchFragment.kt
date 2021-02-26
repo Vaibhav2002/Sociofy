@@ -8,13 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.FragmentSearchBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity
+import com.vaibhav.sociofy.util.Shared.PostGridAdapterSmall
 import com.vaibhav.sociofy.util.Shared.Status
-import com.vaibhav.sociofy.util.Shared.UserListAdapter
+import com.vaibhav.sociofy.util.Shared.UserListHorizontalAdapter
 import com.vaibhav.sociofy.util.showErrorToast
 import kotlinx.coroutines.flow.collect
 
@@ -31,11 +33,28 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             intent.putExtra("user", user)
             startActivity(intent)
         }
-        val userAdapter = UserListAdapter(onUserClicked)
+        val userAdapter = UserListHorizontalAdapter(onUserClicked)
+        val postAdapter = PostGridAdapterSmall {
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToPostDetailFragment(
+                    Post = it,
+                    postId = "null"
+                )
+            findNavController().navigate(action)
+        }
+
         binding.usersRecycle.apply {
             adapter = userAdapter
             setHasFixedSize(false)
         }
+        binding.postsRecycleGrid.apply {
+            adapter = postAdapter
+            setHasFixedSize(false)
+        }
+        viewModel.feed.observe(viewLifecycleOwner, {
+            postAdapter.submitList(it)
+        })
+
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             userAdapter.submitList(it)
         })

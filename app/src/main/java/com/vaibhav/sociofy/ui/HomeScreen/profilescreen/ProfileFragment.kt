@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.databinding.FragmentProfileBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
-import com.vaibhav.sociofy.util.Shared.ProfileScreenGridAdapter
+import com.vaibhav.sociofy.util.Shared.GridPostsAdapter
 import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.showErrorToast
 import kotlinx.coroutines.flow.collect
@@ -27,7 +27,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding = FragmentProfileBinding.bind(view)
         Timber.d(viewModel.hashCode().toString())
 
-        val postAdapter = ProfileScreenGridAdapter(onImageClick = {
+        val postAdapter = GridPostsAdapter(onImageClick = {
             val action =
                 ProfileFragmentDirections.actionProfileFragmentToPostDetailFragment(
                     Post = it,

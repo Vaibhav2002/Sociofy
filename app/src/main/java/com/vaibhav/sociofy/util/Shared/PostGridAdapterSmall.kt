@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vaibhav.sociofy.data.models.Post
-import com.vaibhav.sociofy.databinding.ProfileScreenPostGridItemBinding
+import com.vaibhav.sociofy.databinding.PostGridItemSmallBinding
 
-class ProfileScreenGridAdapter(private val onImageClick: (Post) -> Unit) :
-    ListAdapter<Post, ProfileScreenGridAdapter.viewHolder>(DiffCall()) {
+class PostGridAdapterSmall(private val onImageClick: (Post) -> Unit) :
+    ListAdapter<Post, PostGridAdapterSmall.viewHolder>(DiffCall()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
-        val binding = ProfileScreenPostGridItemBinding
+        val binding = PostGridItemSmallBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return viewHolder(binding)
     }
@@ -21,7 +21,7 @@ class ProfileScreenGridAdapter(private val onImageClick: (Post) -> Unit) :
         holder.bind(item)
     }
 
-    inner class viewHolder(private val binding: ProfileScreenPostGridItemBinding) :
+    inner class viewHolder(private val binding: PostGridItemSmallBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {

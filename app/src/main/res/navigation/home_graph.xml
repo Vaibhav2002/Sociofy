@@ -28,7 +28,11 @@
         android:id="@+id/searchFragment"
         android:name="com.vaibhav.sociofy.ui.HomeScreen.SearchScreen.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.vaibhav.sociofy.ui.HomeScreen.NotificationScreen.NotificationsFragment"

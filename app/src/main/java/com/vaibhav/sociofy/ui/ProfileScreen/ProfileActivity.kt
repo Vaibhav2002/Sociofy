@@ -11,7 +11,7 @@ import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.ActivityProfileBinding
 import com.vaibhav.sociofy.util.Constants.SHOW_POST_DIALOG
-import com.vaibhav.sociofy.util.Shared.ProfileScreenGridAdapter
+import com.vaibhav.sociofy.util.Shared.GridPostsAdapter
 import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.checkDarkMode
 import com.vaibhav.sociofy.util.showErrorToast
@@ -24,7 +24,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
     private lateinit var user: User
     val viewModel: ProfileViewModel by viewModels()
-    private lateinit var postAdapter: ProfileScreenGridAdapter
+    private lateinit var postAdapter: GridPostsAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
         user = intent.extras?.getSerializable("user") as User
         Timber.d(user.toString())
-        postAdapter = ProfileScreenGridAdapter(onImageClick = {
+        postAdapter = GridPostsAdapter(onImageClick = {
             PostDetailDialog(viewModel.userId, it).show(supportFragmentManager, SHOW_POST_DIALOG)
         })
         viewModel.fetchUserPosts(user.id)
