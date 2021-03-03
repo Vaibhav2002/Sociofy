@@ -51,7 +51,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             adapter = postAdapter
             setHasFixedSize(false)
         }
-        viewModel.feed.observe(viewLifecycleOwner, {
+        viewModel.allFeed.observe(viewLifecycleOwner, {
             postAdapter.submitList(it)
         })
 
@@ -59,7 +59,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             userAdapter.submitList(it)
         })
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.userListStatus.collect { status ->
+            viewModel.searchScreenStatus.collect { status ->
                 when (status) {
                     Status.Loading -> binding.loadingAnim.isVisible = true
                     Status.Success -> binding.loadingAnim.isVisible = false

@@ -36,7 +36,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-
         app:navGraph="@navigation/home_graph" />
 
 
@@ -47,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:fabCradleMargin="18dp"
+        app:hideOnScroll="true"
         app:fabCradleRoundedCornerRadius="30dp"
         app:fabCradleVerticalOffset="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

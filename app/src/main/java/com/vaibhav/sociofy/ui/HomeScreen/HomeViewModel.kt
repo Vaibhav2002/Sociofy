@@ -23,6 +23,9 @@ class HomeViewModel @ViewModelInject constructor(
 
     val userId = authRepository.getCurrentUserId()
 
+    private val _allFeed = MutableLiveData<List<Post>>()
+    val allFeed = _allFeed
+
     private val _feed = MutableLiveData<List<Post>>()
     val feed = _feed
 
@@ -45,8 +48,8 @@ class HomeViewModel @ViewModelInject constructor(
     private val _userPageStatus = Channel<Status>()
     val userPageStatus = _userPageStatus.receiveAsFlow()
 
-    private val _userListStatus = Channel<Status>()
-    val userListStatus = _userListStatus.receiveAsFlow()
+    private val _searchScreenStatus = Channel<Status>()
+    val searchScreenStatus = _searchScreenStatus.receiveAsFlow()
 
     private val _notificationStatus = Channel<Status>()
     val notificationStatus = _notificationStatus.receiveAsFlow()
@@ -55,6 +58,7 @@ class HomeViewModel @ViewModelInject constructor(
     init {
         getUserDetails()
         getPosts()
+        getAllPosts()
         getUserPosts()
         getUserList()
         getNotifications()
@@ -62,9 +66,10 @@ class HomeViewModel @ViewModelInject constructor(
 
     private fun getPosts() {
         viewModelScope.launch {
-            Timber.d("Called")
+            Timber.d("getPosts Called")
+            Timber.d(_userDetails.value.toString())
             _feedStatus.send(Status.Loading)
-            postRepository.getAllFeedPosts(successListener = { posts ->
+            postRepository.getFeedOfFollowers(successListener = { posts ->
                 posts.sortByDescending { it.timeStamp }
                 _feed.postValue(posts)
                 viewModelScope.launch { _feedStatus.send(Status.Success) }
@@ -74,9 +79,26 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
+    private fun getAllPosts() {
+        viewModelScope.launch {
+            Timber.d("getPosts Called")
+            Timber.d(_userDetails.value.toString())
+            _searchScreenStatus.send(Status.Loading)
+            postRepository.getAllFeedPosts(successListener = { posts ->
+                posts.sortByDescending { it.timeStamp }
+                _allFeed.postValue(posts)
+                viewModelScope.launch { _searchScreenStatus.send(Status.Success) }
+            }, failureListener = {
+                viewModelScope.launch { _searchScreenStatus.send(Status.Error(it.message.toString())) }
+            })
+        }
+    }
+
 
     private fun getUserDetails() {
+
         viewModelScope.launch {
+            Timber.d("getUserDetails Called")
             _userPageStatus.send(Status.Loading)
             authRepository.getCurrentUserDetails(successListener = {
                 _userDetails.postValue(it)
@@ -89,7 +111,9 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     private fun getUserPosts() {
+
         viewModelScope.launch {
+            Timber.d("getUserPosts Called")
             _userPageStatus.send(Status.Loading)
             postRepository.getUsersPosts(
                 authRepository.getCurrentUserId(),
@@ -104,20 +128,22 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     private fun getUserList() {
+
         viewModelScope.launch {
-            _userListStatus.send(Status.Loading)
+            Timber.d("getUSerList Called")
+            _searchScreenStatus.send(Status.Loading)
             authRepository.getAllUsers(successListener = {
                 _usersList.postValue(it)
-                Timber.d(it.toString())
-                viewModelScope.launch { _userListStatus.send(Status.Success) }
+                viewModelScope.launch { _searchScreenStatus.send(Status.Success) }
             }, failureListener = {
-                viewModelScope.launch { _userListStatus.send(Status.Error(it.message!!)) }
+                viewModelScope.launch { _searchScreenStatus.send(Status.Error(it.message!!)) }
             })
         }
     }
 
     private fun getNotifications() {
         viewModelScope.launch {
+            Timber.d("getNotifications Called")
             _notificationStatus.send(Status.Loading)
             postRepository.getNotifications(successListener = { notifications ->
                 _notificationList.postValue(notifications)

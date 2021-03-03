@@ -31,11 +31,6 @@ class FeedAdapter(private val userId: String, private val onItemClick: onItemCli
             }
             binding.likeButton.setOnClickListener {
                 onItemClick.onLikeClicked(currentList[adapterPosition])
-                if (currentList[adapterPosition].likedBy.containsKey(userId))
-                    binding.likeButton.setImageResource(R.drawable.heart_filled)
-                else
-                    binding.likeButton.setImageResource(R.drawable.heart_unselected)
-
             }
             binding.shareButton.setOnClickListener {
                 onItemClick.onShareClicked(currentList[adapterPosition])

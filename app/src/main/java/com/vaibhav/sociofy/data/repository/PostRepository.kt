@@ -13,11 +13,41 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
+    private val authRepository: AuthRepository,
     private val fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth,
     private val storage: FirebaseStorage
 ) {
 
+
+    suspend fun getFeedOfFollowers(
+        successListener: (MutableList<Post>) -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            authRepository.getCurrentUserDetails({
+                fireStore.collection("posts")
+                    .addSnapshotListener { posts, error ->
+                        val postsList: MutableList<Post> = mutableListOf()
+                        if (error != null) {
+                            failureListener.invoke(error)
+                        } else {
+                            for (po in posts!!.documents) {
+                                val pos = po.toObject<Post>()!!
+                                if (pos.uid != auth.currentUser!!.uid && it.following.keys.contains(
+                                        pos.uid
+                                    )
+                                )
+                                    postsList.add(pos)
+                            }
+                            successListener.invoke(postsList)
+                        }
+                    }
+            }, failureListener = {
+                failureListener.invoke(it)
+            })
+        }
+    }
 
     suspend fun getAllFeedPosts(
         successListener: (MutableList<Post>) -> Unit,
@@ -187,22 +217,27 @@ class PostRepository @Inject constructor(
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
-            fireStore.collection("notifications").addSnapshotListener { value, error ->
-                val list = mutableListOf<Notification>()
-                if (error != null)
-                    failureListener.invoke(error)
-                else {
-                    value?.let {
-                        for (not in value.documents) {
-                            val notification = not.toObject<Notification>()
-                            if (notification!!.uid != auth.currentUser!!.uid)
-                                list.add(notification)
+            authRepository.getCurrentUserDetails(successListener = {
+                fireStore.collection("notifications").addSnapshotListener { value, error ->
+                    val list = mutableListOf<Notification>()
+                    if (error != null)
+                        failureListener.invoke(error)
+                    else {
+                        value?.let {
+                            for (not in value.documents) {
+                                val notification = not.toObject<Notification>()
+                                if (notification!!.uid != auth.currentUser!!.uid)
+                                    list.add(notification)
+                            }
                         }
+                        list.sortByDescending { it.timestamp }
+                        successListener.invoke(list)
                     }
-                    list.sortByDescending { it.timestamp }
-                    successListener.invoke(list)
                 }
-            }
+            }, failureListener = {
+                failureListener.invoke(it)
+            })
+
         }
 
     }
