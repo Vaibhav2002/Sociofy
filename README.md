@@ -4,7 +4,7 @@
 
 **Sociofy** is a social media Android application 📱 built to demonstrate use of *Modern Android development* tools.
 
-**Under Development**🛠
+## **Under Development**🛠
 
 ## Setup
 Clone the repository on your machine. Open the project on your IDE and connect it to firebase ans everything will be setup
