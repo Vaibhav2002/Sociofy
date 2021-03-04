@@ -7,6 +7,19 @@
     tools:context=".ui.authorization.profileImage.ProfileImageFragment">
 
 
+    <TextView
+        android:id="@+id/textView11"
+        style="@style/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="16dp"
+        android:text="Select Profile Picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profileImage"
         android:layout_width="300dp"
@@ -14,11 +27,10 @@
         android:src="@drawable/blankuserimg"
         app:civ_border_color="?attr/colorPrimaryVariant"
         app:civ_border_width="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,7 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/custom_button"
         android:padding="16dp"
