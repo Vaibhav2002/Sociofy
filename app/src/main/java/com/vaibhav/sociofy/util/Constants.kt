@@ -11,4 +11,6 @@ object Constants {
     enum class LIST_FOR {
         FOLLOWERS, FOLLOWING
     }
+
+
 }

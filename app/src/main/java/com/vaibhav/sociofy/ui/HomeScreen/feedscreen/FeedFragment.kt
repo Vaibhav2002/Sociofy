@@ -44,7 +44,6 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
 
             }
         }
-
         viewModel.feed.observe(viewLifecycleOwner, {
             feedAdapter.submitList(it)
         })

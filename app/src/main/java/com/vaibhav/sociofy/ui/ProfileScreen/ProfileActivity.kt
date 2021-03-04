@@ -78,6 +78,7 @@ class ProfileActivity : AppCompatActivity() {
         })
 
 
+
         lifecycleScope.launchWhenStarted {
             viewModel.profileStatus.collect { status ->
                 when (status) {
