@@ -7,7 +7,7 @@
 ## **Under Development**🛠
 
 ## Setup
-Clone the repository on your machine. Open the project on your IDE and connect it to firebase ans everything will be setup
+Clone the repository on your machine. Open the project on your IDE and connect it to firebase and everything will be setup
 
 ## About
 
