@@ -35,28 +35,28 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/blankuserimg" />
 
-            <TextView
+            <Button
                 android:id="@+id/posts_count"
                 style="@style/TextAppearance.MdcTypographyStyles.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:includeFontPadding="false"
                 android:text="@string/_0"
+                android:background="@android:color/transparent"
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintEnd_toStartOf="@+id/follower_count"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-            <TextView
+            <Button
                 android:id="@+id/follower_count"
                 style="@style/TextAppearance.MdcTypographyStyles.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:includeFontPadding="false"
                 android:text="@{user.followerCount}"
+                android:background="@android:color/transparent"
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintEnd_toStartOf="@+id/following_count"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -64,14 +64,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView8"
                 tools:text="@string/_0" />
 
-            <TextView
+            <Button
                 android:id="@+id/following_count"
                 style="@style/TextAppearance.MdcTypographyStyles.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:includeFontPadding="false"
                 android:text="@{user.followingCount}"
+                android:background="@android:color/transparent"
                 android:textColor="?attr/colorOnSurface"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -149,7 +149,7 @@
 
                 <Button
                     android:id="@+id/follow_button"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/custom_outlined_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -161,7 +161,7 @@
 
                 <Button
                     android:id="@+id/unfollow_button"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/custom_outlined_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

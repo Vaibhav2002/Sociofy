@@ -8,8 +8,8 @@ object Constants {
     const val IMAGE_REQUEST_CODE = 1
     const val SHOW_POST_DIALOG = "show_post_dialog"
 
-    enum class LIST_FOR {
-        FOLLOWERS, FOLLOWING
+    enum class LIST_FOR() {
+        Followers, Following
     }
 
 

@@ -16,6 +16,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="custom_outlined_button" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+
     <style name="AppBar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorSurface</item>
         <item name="android:elevation">4dp</item>

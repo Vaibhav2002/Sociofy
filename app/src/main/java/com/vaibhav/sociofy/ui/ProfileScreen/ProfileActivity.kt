@@ -1,5 +1,6 @@
 package com.vaibhav.sociofy.ui.ProfileScreen
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.ActivityProfileBinding
+import com.vaibhav.sociofy.ui.UserListScreen.UserListActivity
+import com.vaibhav.sociofy.util.Constants
 import com.vaibhav.sociofy.util.Constants.SHOW_POST_DIALOG
 import com.vaibhav.sociofy.util.Shared.GridPostsAdapter
 import com.vaibhav.sociofy.util.Shared.Status
@@ -60,6 +63,7 @@ class ProfileActivity : AppCompatActivity() {
                     else
                         followButton.setBackgroundColor(getColor(R.color.surface_light))
                     followButton.isEnabled = true
+                    followButton.text = "Follow"
                     unfollowButton.isEnabled = false
                 }
             }
@@ -77,7 +81,12 @@ class ProfileActivity : AppCompatActivity() {
             postAdapter.submitList(posts)
         })
 
-
+        binding.followerCount.setOnClickListener {
+            navigateToUserList(user, Constants.LIST_FOR.Followers)
+        }
+        binding.followingCount.setOnClickListener {
+            navigateToUserList(user, Constants.LIST_FOR.Following)
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.profileStatus.collect { status ->
@@ -98,5 +107,12 @@ class ProfileActivity : AppCompatActivity() {
     private fun showViewsForError(message: String) {
         binding.loadingAnim.isVisible = false
         showErrorToast(this, this, message)
+    }
+
+    private fun navigateToUserList(user: User, listFor: Constants.LIST_FOR) {
+        val intent = Intent(this, UserListActivity::class.java)
+        intent.putExtra("user", user)
+        intent.putExtra("type", listFor)
+        startActivity(intent)
     }
 }

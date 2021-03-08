@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sociofy">
+        <activity android:name=".ui.UserListScreen.UserListActivity"></activity>
         <activity android:name=".ui.ProfileScreen.ProfileActivity" />
         <activity android:name=".ui.UploadScreen.UploadActivity" />
         <activity android:name=".ui.authorization.AuthActivity" />

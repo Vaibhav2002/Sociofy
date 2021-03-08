@@ -19,6 +19,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="custom_outlined_button" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="strokeColor">?attr/colorPrimaryVariant</item>
+    </style>
+
     <style name="descriptionBox">
         <item name="android:textAppearance">@style/TextAppearance.MdcTypographyStyles.Body1</item>
         <item name="android:background">@drawable/description_box</item>

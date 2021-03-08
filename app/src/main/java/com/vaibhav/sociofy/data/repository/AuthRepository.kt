@@ -240,9 +240,9 @@ class AuthRepository @Inject constructor(
     }
 
 
-    suspend fun getFollowingUser(
-        following: HashMap<String, Boolean>,
-        successListener: () -> Unit,
+    suspend fun getUsersByFilter(
+        following: MutableMap<String, Boolean>,
+        successListener: (List<User>) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
@@ -254,29 +254,15 @@ class AuthRepository @Inject constructor(
             fireStore.collection("users").whereIn("id", followingList)
                 .get()
                 .addOnSuccessListener {
-                    successListener.invoke()
-                }
-                .addOnFailureListener {
-                    failureListener.invoke(it)
-                }
-        }
-    }
+                    val lis = mutableListOf<User>()
+                    for (doc in it.documents) {
+                        val user = doc.toObject<User>()
+                        user?.let {
+                            lis.add(user)
+                        }
+                    }
 
-    suspend fun getFollowedUser(
-        following: HashMap<String, Boolean>,
-        successListener: () -> Unit,
-        failureListener: (Exception) -> Unit
-    ) {
-        withContext(Dispatchers.IO) {
-            val followingList = mutableListOf<String>()
-            for (key in following.keys) {
-                followingList.add(key)
-            }
-
-            fireStore.collection("users").whereIn("id", followingList)
-                .get()
-                .addOnSuccessListener {
-                    successListener.invoke()
+                    successListener.invoke(lis)
                 }
                 .addOnFailureListener {
                     failureListener.invoke(it)

@@ -1,5 +1,6 @@
 package com.vaibhav.sociofy.ui.HomeScreen.profilescreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -9,8 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
+import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.FragmentProfileBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
+import com.vaibhav.sociofy.ui.UserListScreen.UserListActivity
+import com.vaibhav.sociofy.util.Constants
 import com.vaibhav.sociofy.util.Shared.GridPostsAdapter
 import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.showErrorToast
@@ -37,6 +41,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
 
         })
+
+        binding.followerCount.setOnClickListener {
+            navigateToUserList(viewModel.userDetails.value ?: User(), Constants.LIST_FOR.Followers)
+        }
+        binding.followingCount.setOnClickListener {
+            navigateToUserList(viewModel.userDetails.value ?: User(), Constants.LIST_FOR.Following)
+        }
+
+
         binding.postRecycler.apply {
             adapter = postAdapter
             setHasFixedSize(false)
@@ -66,5 +79,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private fun showViewsForError(message: String) {
         binding.loadingAnim.isVisible = false
         showErrorToast(requireContext(), requireActivity(), message)
+    }
+
+    private fun navigateToUserList(user: User, listFor: Constants.LIST_FOR) {
+        val intent = Intent(requireContext(), UserListActivity::class.java)
+        intent.putExtra("user", user)
+        intent.putExtra("type", listFor)
+        startActivity(intent)
     }
 }

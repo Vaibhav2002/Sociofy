@@ -34,14 +34,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:text="@{user.username}"
+            android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body1"
             app:layout_constraintBottom_toBottomOf="@+id/circularImageView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/circularImageView2"
             app:layout_constraintTop_toTopOf="@+id/circularImageView2"
             tools:text="vaibhav2511" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
