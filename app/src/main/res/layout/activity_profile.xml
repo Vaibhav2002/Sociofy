@@ -47,7 +47,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/follower_count"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/bio" />
 
             <Button
                 android:id="@+id/follower_count"
@@ -61,7 +61,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/following_count"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/posts_count"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:layout_constraintTop_toBottomOf="@+id/bio"
                 tools:text="@string/_0" />
 
             <Button
@@ -76,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/follower_count"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:layout_constraintTop_toBottomOf="@+id/bio"
                 tools:text="@string/_0" />
 
             <TextView
@@ -122,6 +122,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/circularImageView"
                 tools:text="Vaibhav2511" />
 
+            <TextView
+                android:id="@+id/bio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{user.bio}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView8"
+                tools:text="Hello, i am an android dev.\n good in ui ux also" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/postRecycler"
                 android:layout_width="match_parent"
@@ -149,7 +163,7 @@
 
                 <Button
                     android:id="@+id/follow_button"
-                    style="@style/custom_outlined_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -161,7 +175,7 @@
 
                 <Button
                     android:id="@+id/unfollow_button"
-                    style="@style/custom_outlined_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -51,7 +51,6 @@ class FeedAdapter(private val userId: String, private val onItemClick: onItemCli
             oldItem: Post,
             newItem: Post
         ): Boolean {
-            Timber.d((oldItem.postUid == newItem.postUid).toString())
             return oldItem.postUid == newItem.postUid
         }
 
@@ -59,7 +58,7 @@ class FeedAdapter(private val userId: String, private val onItemClick: onItemCli
             oldItem: Post,
             newItem: Post
         ): Boolean {
-            Timber.d((oldItem == newItem).toString())
+            Timber.d("${oldItem.likes} ${newItem.likes}  ${oldItem.likes == newItem.likes}")
             return oldItem.likes == newItem.likes
         }
     }

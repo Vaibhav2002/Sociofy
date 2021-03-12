@@ -9,6 +9,7 @@ data class User(
     val email: String = "",
     val profileImg: String = ""
 ) : Serializable {
+    var bio = ""
     val following = mutableMapOf<String, Boolean>()
     val followers = mutableMapOf<String, Boolean>()
     fun getFollowerCount() = followers.size.toString()

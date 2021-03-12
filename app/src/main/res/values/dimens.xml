@@ -2,5 +2,5 @@
 <resources>
     <dimen name="loadingAnimSize">200dp</dimen>
     <dimen name="marginforscroll">64dp</dimen>
-    <dimen name="profileImageBig">160dp</dimen>
+    <dimen name="profileImageBig">140dp</dimen>
 </resources>

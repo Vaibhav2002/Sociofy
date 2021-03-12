@@ -223,10 +223,10 @@ class PostRepository @Inject constructor(
                     if (error != null)
                         failureListener.invoke(error)
                     else {
-                        value?.let {
+                        value?.let { _ ->
                             for (not in value.documents) {
                                 val notification = not.toObject<Notification>()
-                                if (notification!!.uid != auth.currentUser!!.uid)
+                                if (notification!!.uid != auth.currentUser!!.uid && notification.uid in it.following.keys)
                                     list.add(notification)
                             }
                         }
