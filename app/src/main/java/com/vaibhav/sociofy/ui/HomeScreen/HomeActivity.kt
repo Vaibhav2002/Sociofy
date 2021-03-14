@@ -10,8 +10,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.databinding.ActivityHomeBinding
 import com.vaibhav.sociofy.ui.UploadScreen.UploadActivity
+import com.vaibhav.sociofy.ui.settingScreen.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -23,15 +23,19 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Timber.d(viewModel.hashCode().toString())
         navController = findNavController(R.id.fragment_host)
         binding.bottomnav.background = null
         binding.bottomnav.setupWithNavController(navController)
         binding.bottomnav.menu.getItem(2).isEnabled = false
-        Timber.d(viewModel.hashCode().toString())
         binding.fab.setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
             overridePendingTransition(R.anim.bottom_enter_anim, R.anim.bottom_exit_anim)
         }
+        setSupportActionBar(binding.myToolbar)
+        binding.hamburger.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
     }
+
+
 }

@@ -60,6 +60,10 @@
         <item name="cardBackgroundColor">@color/dark_blue</item>
     </style>
 
+    <style name="userListItem">
+        <item name="android:background">@color/surface_dark</item>
+    </style>
+
     <style name="AppBarText">
         <item name="android:fontFamily">@font/hachi</item>
         <item name="android:textStyle">bold</item>

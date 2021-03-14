@@ -32,4 +32,12 @@ object AppModule {
     @Singleton
     @Provides
     fun providesGlide(@ApplicationContext context: Context) = Glide.with(context)
+
+    @Provides
+    @Singleton
+    fun providesSharedPreferences(@ApplicationContext context: Context) =
+        context.getSharedPreferences("SOCIOFY", Context.MODE_PRIVATE)
+
+    @Provides
+    fun providesApplicationContext(@ApplicationContext context: Context) = context
 }

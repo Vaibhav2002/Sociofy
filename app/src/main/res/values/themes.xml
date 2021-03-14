@@ -16,6 +16,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+
     <style name="custom_outlined_button" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">?attr/colorPrimaryVariant</item>
     </style>
@@ -36,6 +37,10 @@
 
     <style name="bottomAppBar" parent="Widget.MaterialComponents.BottomAppBar.Colored">
         <item name="backgroundTint">?attr/colorSurface</item>
+    </style>
+
+    <style name="userListItem">
+        <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="AppBarText">

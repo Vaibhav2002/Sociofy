@@ -12,5 +12,9 @@ object Constants {
         Followers, Following
     }
 
+    enum class THEME {
+        NIGHT, DAY
+    }
+
 
 }
