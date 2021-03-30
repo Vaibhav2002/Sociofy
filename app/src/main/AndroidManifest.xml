@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sociofy">
+        <service android:name=".fcm.service.FCMService" />
+
         <activity android:name=".ui.settingScreen.SettingsActivity"></activity>
         <activity android:name=".ui.UserListScreen.UserListActivity" />
         <activity android:name=".ui.ProfileScreen.ProfileActivity" />

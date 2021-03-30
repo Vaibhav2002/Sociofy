@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.vaibhav.sociofy.data.models.User
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val fireStore: FirebaseFirestore,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val fcm: FirebaseMessaging
 ) {
 
     fun isLoggedIn() = auth.currentUser != null
@@ -52,10 +54,15 @@ class AuthRepository @Inject constructor(
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                successListener.invoke()
+
                 if (isLoggedIn()) {
-                    updateUserName(username, it.user!!)
-                    addUserToFireStore(username)
+                    getToken(successListener = {
+                        Timber.d(it)
+                        addUserToFireStore(username, token = it, successListener = {
+                            successListener.invoke()
+                        }, failureListener = { failureListener(it) })
+                    }, failureListener = { failureListener.invoke(it) })
+
                 }
             }
             .addOnFailureListener { task ->
@@ -64,6 +71,13 @@ class AuthRepository @Inject constructor(
 
     }
 
+    private fun getToken(successListener: (String) -> Unit, failureListener: (Exception) -> Unit) {
+        fcm.token
+            .addOnSuccessListener {
+                successListener(it)
+            }
+            .addOnFailureListener { failureListener(it) }
+    }
 
     suspend fun updateUser(
         username: String,
@@ -206,12 +220,27 @@ class AuthRepository @Inject constructor(
 
     }
 
+    fun addUserTokenToFireStore(token: String) {
+        val userId = getCurrentUserId()
+        fireStore.collection("users").document(userId).update("deviceToken", token)
+            .addOnSuccessListener { Timber.d("Token saved in firestore") }
+            .addOnFailureListener { Timber.d("Token saving failed") }
 
-    private fun addUserToFireStore(username: String) {
+    }
+
+    private fun addUserToFireStore(
+        username: String,
+        token: String,
+        successListener: () -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
         auth.currentUser?.let {
             val user = User(it.uid, username, it.email!!)
+            user.deviceToken = token
             Timber.d(user.toString())
             fireStore.collection("users").document(user.id).set(user)
+                .addOnSuccessListener { successListener() }
+                .addOnFailureListener { failureListener(it) }
         }
     }
 
