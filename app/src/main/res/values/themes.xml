@@ -57,17 +57,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="authTextBox">
-        <item name="android:background">@drawable/inputbox</item>
-        <item name="android:textAppearance">@style/TextAppearance.MdcTypographyStyles.Body1</item>
-        <item name="android:drawablePadding">8dp</item>
-        <item name="android:colorBackground">@color/authTextBgColor</item>
-    </style>
 
-    <style name="authButton">
-        <item name="color">?attr/colorPrimary</item>
-        <item name="cornerRadius">20dp</item>
-    </style>
 
     <style name="myButton">
         <item name="android:background">@drawable/custom_button</item>

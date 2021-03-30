@@ -2,6 +2,9 @@ package com.vaibhav.sociofy.ui.HomeScreen.profilescreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -19,7 +22,6 @@ import com.vaibhav.sociofy.util.Shared.GridPostsAdapter
 import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.showErrorToast
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -29,7 +31,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProfileBinding.bind(view)
-        Timber.d(viewModel.hashCode().toString())
+        setHasOptionsMenu(true)
 
         val postAdapter = GridPostsAdapter(onImageClick = {
             val action =
@@ -38,8 +40,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     postId = "null"
                 )
             findNavController().navigate(action)
-
-
         })
 
         binding.followerCount.setOnClickListener {
@@ -66,11 +66,20 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.userPageStatus.collect { status ->
                 when (status) {
-                    Status.Loading -> binding.loadingAnim.isVisible =
-                        true
-                    Status.Success -> binding.loadingAnim.isVisible =
-                        false
-                    is Status.Error -> showViewsForError(status.error)
+                    Status.Loading -> {
+                        binding.loadingAnim.isVisible =
+                            true
+                        setMenuVisibility(false)
+                    }
+                    Status.Success -> {
+                        binding.loadingAnim.isVisible =
+                            false
+                        setMenuVisibility(true)
+                    }
+                    is Status.Error -> {
+                        showViewsForError(status.error)
+                        setMenuVisibility(false)
+                    }
                 }
             }
         }
@@ -86,5 +95,25 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         intent.putExtra("user", user)
         intent.putExtra("type", listFor)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_bar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu -> {
+                val action =
+                    ProfileFragmentDirections.actionProfileFragmentToSettingsActivity(viewModel.userDetails.value!!)
+                findNavController().navigate(action)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+
+        }
+
     }
 }

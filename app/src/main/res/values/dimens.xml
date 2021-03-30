@@ -3,4 +3,5 @@
     <dimen name="loadingAnimSize">200dp</dimen>
     <dimen name="marginforscroll">64dp</dimen>
     <dimen name="profileImageBig">140dp</dimen>
+    <dimen name="profileImageExtraBig">200dp</dimen>
 </resources>

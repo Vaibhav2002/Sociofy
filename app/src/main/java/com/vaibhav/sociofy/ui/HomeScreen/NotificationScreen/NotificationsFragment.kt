@@ -26,6 +26,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNotificationsBinding.bind(view)
+        setHasOptionsMenu(false)
         notificationAdapter = NotificationAdapter({
             val action =
                 NotificationsFragmentDirections.actionNotificationsFragmentToPostDetailFragment(

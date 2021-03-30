@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imageView"
             setProfileImage="@{user.profileImg}"
             android:layout_width="60dp"
             android:layout_height="60dp"

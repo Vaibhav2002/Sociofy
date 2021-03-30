@@ -28,6 +28,7 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFeedBinding.bind(view)
+        setHasOptionsMenu(false)
         val feedAdapter = FeedAdapter(userId = viewModel.userId, this)
         binding.postRecycle.apply {
             adapter = feedAdapter

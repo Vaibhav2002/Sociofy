@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.databinding.ActivityHomeBinding
 import com.vaibhav.sociofy.ui.UploadScreen.UploadActivity
-import com.vaibhav.sociofy.ui.settingScreen.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,9 +31,9 @@ class HomeActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.bottom_enter_anim, R.anim.bottom_exit_anim)
         }
         setSupportActionBar(binding.myToolbar)
-        binding.hamburger.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
+//        binding.hamburger.setOnClickListener {
+//            startActivity(Intent(this, SettingsActivity::class.java))
+//        }
     }
 
 

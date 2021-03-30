@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
@@ -20,7 +19,6 @@ import com.vaibhav.sociofy.util.checkDarkMode
 import com.vaibhav.sociofy.util.showErrorToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
@@ -29,26 +27,26 @@ class ProfileActivity : AppCompatActivity() {
     val viewModel: ProfileViewModel by viewModels()
     private lateinit var postAdapter: GridPostsAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         user = intent.extras?.getSerializable("user") as User
-        Timber.d(user.toString())
+        viewModel.fetchUserPosts(user.id)
+        binding.circularImageView.transitionName = user.profileImg
+        Glide.with(this).load(user.profileImg).error(R.drawable.blankuserimg)
+            .into(binding.circularImageView)
+        binding.user = user
         postAdapter = GridPostsAdapter(onImageClick = {
             PostDetailDialog(viewModel.userId, it).show(supportFragmentManager, SHOW_POST_DIALOG)
         })
-        viewModel.fetchUserPosts(user.id)
+
         binding.postRecycler.apply {
             adapter = postAdapter
             setHasFixedSize(false)
         }
-        binding.user = user
-        Glide.with(this).load(user.profileImg).error(R.drawable.blankuserimg)
-            .into(binding.circularImageView)
 
-        viewModel.currentUser.observe(this, Observer {
+        viewModel.currentUser.observe(this, {
             if (it.following.containsKey(user.id)) {
                 binding.apply {
                     followButton.setBackgroundColor(getColor(R.color.colorPrimary))

@@ -23,6 +23,9 @@
                 android:name="post_id"
                 android:defaultValue='""' />
         </action>
+        <action
+            android:id="@+id/action_profileFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -32,6 +35,12 @@
         <action
             android:id="@+id/action_searchFragment_to_postDetailFragment"
             app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_profileActivity"
+            app:destination="@id/profileActivity" />
+        <action
+            android:id="@+id/action_searchFragment_to_profileActivity2"
+            app:destination="@id/profileActivity" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -56,5 +65,22 @@
             app:argType="string"
             app:nullable="true" />
     </dialog>
+    <activity
+        android:id="@+id/profileActivity"
+        android:name="com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity"
+        android:label="ProfileActivity">
+        <argument
+            android:name="user"
+            app:argType="com.vaibhav.sociofy.data.models.User" />
+    </activity>
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.vaibhav.sociofy.ui.settingScreen.SettingsActivity"
+        android:label="activity_settings"
+        tools:layout="@layout/activity_settings">
+        <argument
+            android:name="user"
+            app:argType="com.vaibhav.sociofy.data.models.User" />
+    </activity>
 
 </navigation>

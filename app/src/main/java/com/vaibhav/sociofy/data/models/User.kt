@@ -12,6 +12,7 @@ data class User(
     var bio = ""
     val following = mutableMapOf<String, Boolean>()
     val followers = mutableMapOf<String, Boolean>()
+    var deviceToken = ""
     fun getFollowerCount() = followers.size.toString()
     fun getFollowingCount() = following.size.toString()
 }

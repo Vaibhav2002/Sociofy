@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vaibhav.sociofy.R
@@ -28,6 +27,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
+        setHasOptionsMenu(false)
         val onUserClicked = { user: User ->
             val intent = Intent(requireContext(), ProfileActivity::class.java)
             intent.putExtra("user", user)
@@ -55,7 +55,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             postAdapter.submitList(it)
         })
 
-        viewModel.userList.observe(viewLifecycleOwner, Observer {
+        viewModel.userList.observe(viewLifecycleOwner, {
             userAdapter.submitList(it)
         })
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

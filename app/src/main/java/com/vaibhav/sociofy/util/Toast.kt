@@ -7,21 +7,21 @@ import com.vaibhav.sociofy.R
 import www.sanju.motiontoast.MotionToast
 
 
-fun showSuccessToast(context: Context, activity: Activity, message: String) {
+fun showSuccessToast(context: Context, activity: Activity, message: String, title: String = "") {
     if (checkDarkMode(context))
         showSuccessToastDark(activity, message)
     else
         showSuccessToastLight(activity, message)
 }
 
-fun showErrorToast(context: Context, activity: Activity, message: String) {
+fun showErrorToast(context: Context, activity: Activity, message: String, title: String = "") {
     if (checkDarkMode(context))
         showErrorToastDark(activity, message)
     else
         showErrorToastLight(activity, message)
 }
 
-private fun showSuccessToastLight(activity: Activity, message: String) {
+private fun showSuccessToastLight(activity: Activity, message: String, title: String = "") {
     MotionToast.createColorToast(
         activity,
         "Upload Completed!",
@@ -33,7 +33,7 @@ private fun showSuccessToastLight(activity: Activity, message: String) {
     )
 }
 
-private fun showErrorToastLight(activity: Activity, message: String) {
+private fun showErrorToastLight(activity: Activity, message: String, title: String = "") {
     MotionToast.createColorToast(
         activity,
         "Upload Completed!",
@@ -45,7 +45,7 @@ private fun showErrorToastLight(activity: Activity, message: String) {
     )
 }
 
-private fun showSuccessToastDark(activity: Activity, message: String) {
+private fun showSuccessToastDark(activity: Activity, message: String, title: String = "") {
     MotionToast.darkToast(
         activity,
         "Upload Completed!",
@@ -57,7 +57,7 @@ private fun showSuccessToastDark(activity: Activity, message: String) {
     )
 }
 
-private fun showErrorToastDark(activity: Activity, message: String) {
+private fun showErrorToastDark(activity: Activity, message: String, title: String = "") {
     MotionToast.darkToast(
         activity,
         "Upload Completed!",

@@ -3,24 +3,24 @@ package com.vaibhav.sociofy.ui.settingScreen
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.navArgs
+import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.databinding.ActivitySettingsBinding
-import com.vaibhav.sociofy.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
+    private lateinit var binding: ActivitySettingsBinding
+    private lateinit var navController: NavController
+    private val navArgs by navArgs<SettingsActivityArgs>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val theme = viewModel.getTheme()
-        binding.darkmodeswitch.isChecked = theme == Constants.THEME.NIGHT
-        binding.darkmodeswitch.setOnCheckedChangeListener { _, b ->
-            viewModel.setTheme(b)
-        }
-
+        navController = findNavController(R.id.fragmentController)
+        viewModel.setUser(navArgs.user)
     }
 }

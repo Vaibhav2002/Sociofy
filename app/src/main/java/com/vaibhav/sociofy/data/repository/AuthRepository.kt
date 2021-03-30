@@ -65,6 +65,87 @@ class AuthRepository @Inject constructor(
     }
 
 
+    suspend fun updateUser(
+        username: String,
+        bio: String,
+        image: Uri?,
+        successListener: () -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            image?.let {
+                storeImage(image, successListener = {
+                    updateUerInFireStore(username, bio, it, successListener, failureListener)
+                }, failureListener = {
+                    failureListener.invoke(it)
+                })
+            } ?: updateUserInFireStoreWithoutImage(username, bio, successListener, failureListener)
+
+        }
+    }
+
+    private fun updateUserInFireStoreWithoutImage(
+        username: String,
+        bio: String,
+        successListener: () -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
+        fireStore.collection("users").document(getCurrentUserId())
+            .update("username", username, "bio", bio)
+            .addOnSuccessListener {
+                successListener.invoke()
+            }
+            .addOnFailureListener { failureListener.invoke(it) }
+    }
+
+    private fun updateUerInFireStore(
+        username: String,
+        bio: String,
+        image: String,
+        successListener: () -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
+        fireStore.collection("users").document(getCurrentUserId())
+            .update("username", username, "bio", bio, "profileImg", image)
+            .addOnSuccessListener {
+                successListener.invoke()
+            }
+            .addOnFailureListener { failureListener.invoke(it) }
+    }
+
+    private fun storeImage(
+        image: Uri,
+        successListener: (String) -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
+        val filename = getCurrentUserId()
+        storage.reference.child(filename).putFile(image)
+            .addOnSuccessListener {
+                getDownloadUrl(filename, successListener = {
+                    successListener.invoke(it)
+                }, failureListener = { failureListener.invoke(it) })
+            }
+            .addOnFailureListener {
+                failureListener.invoke(it)
+            }
+    }
+
+
+    private fun getDownloadUrl(
+        filename: String,
+        successListener: (String) -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
+        storage.reference.child(filename).downloadUrl
+            .addOnSuccessListener {
+                successListener.invoke(it.toString())
+            }
+            .addOnFailureListener {
+                failureListener.invoke(it)
+            }
+    }
+
+
     suspend fun setUserImage(
         uri: Uri,
         successListener: () -> Unit,
@@ -72,6 +153,7 @@ class AuthRepository @Inject constructor(
     ) {
         withContext(Dispatchers.IO) {
             addUserImageToStorage(uri, successListener, failureListener)
+
         }
     }
 
