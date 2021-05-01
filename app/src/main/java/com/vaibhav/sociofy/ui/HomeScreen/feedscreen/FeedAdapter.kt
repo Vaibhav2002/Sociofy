@@ -2,6 +2,7 @@ package com.vaibhav.sociofy.ui.HomeScreen.feedscreen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,27 @@ class FeedAdapter(private val userId: String, private val onItemClick: onItemCli
             binding.shareButton.setOnClickListener {
                 onItemClick.onShareClicked(currentList[adapterPosition])
             }
+            val popupMenu = PopupMenu(binding.root.context, binding.optionsMenu)
+                .apply {
+                    inflate(R.menu.feed_post_options_menu)
+                    setOnMenuItemClickListener {
+                        when (it.itemId) {
+                            R.id.savePost -> {
+                                onItemClick.onSaveClicked(currentList[adapterPosition])
+                                true
+                            }
+                            else -> {
+                                onItemClick.onDownloadClicked(currentList[adapterPosition])
+                                true
+                            }
+                        }
+                    }
+                }
+
+            binding.optionsMenu.setOnClickListener {
+                popupMenu.show()
+            }
+
         }
 
         fun bind(data: Post) {
@@ -69,4 +91,6 @@ interface onItemClick {
     fun onProfileClick(post: Post)
     fun onLikeClicked(post: Post)
     fun onShareClicked(post: Post)
+    fun onSaveClicked(post: Post)
+    fun onDownloadClicked(post: Post)
 }

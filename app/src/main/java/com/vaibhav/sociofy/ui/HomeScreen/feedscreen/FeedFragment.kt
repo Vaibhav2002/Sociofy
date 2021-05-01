@@ -1,10 +1,12 @@
 package com.vaibhav.sociofy.ui.HomeScreen.feedscreen
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.vaibhav.sociofy.R
@@ -13,8 +15,10 @@ import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.FragmentFeedBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity
+import com.vaibhav.sociofy.util.Shared.InteractionStatus
 import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.showErrorToast
+import com.vaibhav.sociofy.util.showSuccessToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -44,11 +48,26 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
                 }
 
             }
+            viewModel.postInteractionStatus.collect {
+                when (it) {
+                    InteractionStatus.Loading -> {
+                        binding.loadingAnim.isVisible = true
+                    }
+                    is InteractionStatus.Success -> {
+                        binding.loadingAnim.isVisible = false
+                        showSuccessToast(requireContext(), requireActivity(), it.message, "Success")
+                    }
+                    is InteractionStatus.Error -> {
+                        binding.loadingAnim.isVisible = false
+                        showErrorToast(requireContext(), requireActivity(), it.error, "Failed")
+                    }
+
+                }
+            }
         }
         viewModel.feed.observe(viewLifecycleOwner, {
             feedAdapter.submitList(it)
         })
-
     }
 
 
@@ -73,8 +92,17 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
             viewModel.likeButtonPressed(post)
     }
 
+    override fun onSaveClicked(post: Post) {
+        Timber.d("inSaveClicked")
+        viewModel.savePost(post)
+    }
+
     override fun onShareClicked(post: Post) {
         Timber.d("share clicked")
+    }
+
+    override fun onDownloadClicked(post: Post) {
+
     }
 
     private fun showViewsForLoading() {

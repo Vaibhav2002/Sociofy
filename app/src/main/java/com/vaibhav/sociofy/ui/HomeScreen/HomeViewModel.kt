@@ -9,6 +9,7 @@ import com.vaibhav.sociofy.data.models.Post
 import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.data.repository.AuthRepository
 import com.vaibhav.sociofy.data.repository.PostRepository
+import com.vaibhav.sociofy.util.Shared.InteractionStatus
 import com.vaibhav.sociofy.util.Shared.Status
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -22,6 +23,8 @@ class HomeViewModel @ViewModelInject constructor(
 
 
     val userId = authRepository.getCurrentUserId()
+
+    //data
 
     private val _allFeed = MutableLiveData<List<Post>>()
     val allFeed = _allFeed
@@ -42,6 +45,8 @@ class HomeViewModel @ViewModelInject constructor(
     val notificationList = _notificationList
 
 
+    //status
+
     private val _feedStatus = Channel<Status>()
     val feedStatus = _feedStatus.receiveAsFlow()
 
@@ -54,6 +59,8 @@ class HomeViewModel @ViewModelInject constructor(
     private val _notificationStatus = Channel<Status>()
     val notificationStatus = _notificationStatus.receiveAsFlow()
 
+    private val _postInteractionStatus = Channel<InteractionStatus>()
+    val postInteractionStatus = _postInteractionStatus.receiveAsFlow()
 
     init {
         getUserDetails()
@@ -177,4 +184,6 @@ class HomeViewModel @ViewModelInject constructor(
             })
         }
     }
+
+
 }

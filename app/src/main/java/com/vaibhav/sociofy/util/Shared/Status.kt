@@ -5,3 +5,9 @@ sealed class Status {
     object Success : Status()
     class Error(val error: String) : Status()
 }
+
+sealed class InteractionStatus {
+    object Loading : InteractionStatus()
+    class Success(val message: String) : InteractionStatus()
+    class Error(val error: String) : InteractionStatus()
+}

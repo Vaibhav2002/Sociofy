@@ -7,6 +7,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.vaibhav.sociofy.data.models.Notification
 import com.vaibhav.sociofy.data.models.Post
+import com.vaibhav.sociofy.data.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -272,6 +273,28 @@ class PostRepository @Inject constructor(
                 .update("likes", likes, "likedBy", likedBy)
                 .addOnSuccessListener { successListener.invoke() }
                 .addOnFailureListener { failureListener.invoke(it) }
+        }
+    }
+
+
+    suspend fun savePost(
+        user: User,
+        postId: String,
+        successListener: (User) -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            try {
+                Timber.d("InSaveRepo")
+                val saved = user.savedPosts
+                saved[postId] = true
+                fireStore.collection("users").document(user.id)
+                    .update("savedPosts", saved)
+                    .addOnSuccessListener { successListener(user) }
+                    .addOnFailureListener { failureListener(it) }
+            } catch (e: Exception) {
+                failureListener(e)
+            }
         }
     }
 
