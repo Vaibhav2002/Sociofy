@@ -1,6 +1,7 @@
 package com.vaibhav.sociofy.ui.HomeScreen
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import com.vaibhav.sociofy.data.repository.AuthRepository
 import com.vaibhav.sociofy.data.repository.PostRepository
 import com.vaibhav.sociofy.util.Shared.InteractionStatus
 import com.vaibhav.sociofy.util.Shared.Status
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -59,8 +61,8 @@ class HomeViewModel @ViewModelInject constructor(
     private val _notificationStatus = Channel<Status>()
     val notificationStatus = _notificationStatus.receiveAsFlow()
 
-    private val _postInteractionStatus = Channel<InteractionStatus>()
-    val postInteractionStatus = _postInteractionStatus.receiveAsFlow()
+    private val _postInteractionStatus = MutableLiveData<InteractionStatus>()
+    val postInteractionStatus: LiveData<InteractionStatus> = _postInteractionStatus
 
     init {
         getUserDetails()
@@ -69,6 +71,8 @@ class HomeViewModel @ViewModelInject constructor(
         getUserPosts()
         getUserList()
         getNotifications()
+
+
     }
 
     private fun getPosts() {
@@ -185,5 +189,23 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
+    fun savePost(post: Post) =
+        viewModelScope.launch {
+            postRepository.savePost(userId = userId, postId = post.postUid,
+                successListener = {
+                    _postInteractionStatus.postValue(InteractionStatus.Success("Post Saved successfully"))
+                },
+                failureListener = {
+                    _postInteractionStatus.postValue(InteractionStatus.Success("Post Save unsuccessful"))
 
+                }
+            )
+        }
+
+    fun onDownloadPostPressed(post: Post) = downloadPost(post)
+
+    @ExperimentalCoroutinesApi
+    private fun downloadPost(post: Post) = viewModelScope.launch {
+        postRepository.insertPost(post)
+    }
 }

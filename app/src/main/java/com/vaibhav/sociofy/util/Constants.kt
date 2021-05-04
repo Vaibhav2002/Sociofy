@@ -7,6 +7,7 @@ object Constants {
     const val loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et"
     const val IMAGE_REQUEST_CODE = 1
     const val SHOW_POST_DIALOG = "show_post_dialog"
+    const val DEFAULT_ERROR = "Oops something went wrong"
 
     enum class LIST_FOR() {
         Followers, Following

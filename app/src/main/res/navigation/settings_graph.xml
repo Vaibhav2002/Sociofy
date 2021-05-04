@@ -8,14 +8,29 @@
     <fragment
         android:id="@+id/settingMainFragment"
         android:name="com.vaibhav.sociofy.ui.settingScreen.settingsMainScreen.SettingMainFragment"
-        android:label="fragment_setting_main"
+        android:label="Sociofy"
         tools:layout="@layout/fragment_setting_main">
         <action
             android:id="@+id/action_settingMainFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_settingMainFragment_to_savedPostsFragment"
+            app:destination="@id/savedPostsFragment" />
+        <action
+            android:id="@+id/action_settingMainFragment_to_downloadedPostsFragment"
+            app:destination="@id/downloadedPostsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.vaibhav.sociofy.ui.settingScreen.editProfileScreen.EditProfileFragment"
-        android:label="EditProfileFragment" />
+        android:label="Edit Profile" />
+    <fragment
+        android:id="@+id/savedPostsFragment"
+        android:name="com.vaibhav.sociofy.ui.settingScreen.savedPosts.SavedPostsFragment"
+        android:label="Saved Posts" />
+    <fragment
+        android:id="@+id/downloadedPostsFragment"
+        android:name="com.vaibhav.sociofy.ui.settingScreen.downloadedPosts.DownloadedPostsFragment"
+        android:label="Downloaded Post"
+        tools:layout="@layout/fragment_downloaded_posts" />
 </navigation>

@@ -7,10 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.databinding.ActivityHomeBinding
 import com.vaibhav.sociofy.ui.UploadScreen.UploadActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -34,6 +38,15 @@ class HomeActivity : AppCompatActivity() {
 //        binding.hamburger.setOnClickListener {
 //            startActivity(Intent(this, SettingsActivity::class.java))
 //        }
+
+
+        val radius = resources.getDimension(R.dimen.corner_radius)
+        Timber.d(binding.bottomAppBar.measuredHeight.toString())
+        val bottomBarBackground = binding.bottomAppBar.background as MaterialShapeDrawable
+        bottomBarBackground.shapeAppearanceModel = bottomBarBackground.shapeAppearanceModel
+            .toBuilder()
+            .setAllCorners(CornerFamily.ROUNDED, radius)
+            .build()
     }
 
 

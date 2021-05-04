@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.FragmentEditProfileBinding
+import com.vaibhav.sociofy.ui.settingScreen.SettingsActivity
 import com.vaibhav.sociofy.ui.settingScreen.SettingsViewModel
 import com.vaibhav.sociofy.util.Constants
 import com.vaibhav.sociofy.util.Shared.Status
@@ -40,6 +41,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             if (verifyInput(username, bio))
                 viewModel.updateUser(imageUri, username, bio)
         }
+        (activity as SettingsActivity).supportActionBar?.title = "Edit Profile"
         binding.editImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"

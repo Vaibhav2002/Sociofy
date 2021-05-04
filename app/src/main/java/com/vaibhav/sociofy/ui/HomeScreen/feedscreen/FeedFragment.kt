@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.vaibhav.sociofy.R
@@ -20,6 +19,7 @@ import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.showErrorToast
 import com.vaibhav.sociofy.util.showSuccessToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
@@ -29,6 +29,7 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
     private lateinit var binding: FragmentFeedBinding
     private val viewModel: HomeViewModel by activityViewModels()
 
+    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFeedBinding.bind(view)
@@ -40,28 +41,43 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.feedStatus.collect { status ->
-                when (status) {
-                    Status.Loading -> showViewsForLoading()
-                    Status.Success -> showViewsForSuccess()
-                    is Status.Error -> showViewsForError(status.error)
-                }
-
-            }
-            viewModel.postInteractionStatus.collect {
+            viewModel.feedStatus.collect {
                 when (it) {
-                    InteractionStatus.Loading -> {
-                        binding.loadingAnim.isVisible = true
+                    is Status.Error -> {
+                        showViewsForError(it.error)
                     }
-                    is InteractionStatus.Success -> {
-                        binding.loadingAnim.isVisible = false
-                        showSuccessToast(requireContext(), requireActivity(), it.message, "Success")
+                    Status.Loading -> {
+                        showViewsForLoading()
                     }
-                    is InteractionStatus.Error -> {
-                        binding.loadingAnim.isVisible = false
-                        showErrorToast(requireContext(), requireActivity(), it.error, "Failed")
+                    Status.Success -> {
+                        showViewsForSuccess()
                     }
+                }
+            }
+        }
 
+        viewModel.postInteractionStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                is InteractionStatus.Error -> {
+                    Timber.d(it.error)
+                    showErrorToast(
+                        requireContext(),
+                        requireActivity(),
+                        title = "Failed to save",
+                        message = it.error
+                    )
+                }
+                InteractionStatus.Loading -> {
+
+                }
+                is InteractionStatus.Success -> {
+                    Timber.d(it.message)
+                    showSuccessToast(
+                        requireContext(),
+                        requireActivity(),
+                        title = "Save successful",
+                        message = it.message
+                    )
                 }
             }
         }
@@ -93,7 +109,6 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
     }
 
     override fun onSaveClicked(post: Post) {
-        Timber.d("inSaveClicked")
         viewModel.savePost(post)
     }
 
@@ -102,7 +117,7 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
     }
 
     override fun onDownloadClicked(post: Post) {
-
+        viewModel.onDownloadPostPressed(post)
     }
 
     private fun showViewsForLoading() {

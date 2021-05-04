@@ -1,14 +1,19 @@
 package com.vaibhav.sociofy.data.repository
 
+import android.content.Context
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
-import com.vaibhav.sociofy.data.models.Notification
-import com.vaibhav.sociofy.data.models.Post
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.local.PostDao
+import com.vaibhav.sociofy.data.models.*
+import com.vaibhav.sociofy.data.models.local.DownloadedPost
+import com.vaibhav.sociofy.data.remote.Api
+import com.vaibhav.sociofy.util.Shared.urlToBitmap
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,7 +22,10 @@ class PostRepository @Inject constructor(
     private val authRepository: AuthRepository,
     private val fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val postDao: PostDao,
+    private val context: Context,
+    private val api: Api
 ) {
 
 
@@ -54,7 +62,6 @@ class PostRepository @Inject constructor(
         successListener: (MutableList<Post>) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
-
         withContext(Dispatchers.IO) {
             fireStore.collection("posts")
                 .addSnapshotListener { posts, error ->
@@ -166,6 +173,7 @@ class PostRepository @Inject constructor(
     suspend fun uploadPost(
         filename: String,
         description: String,
+        user: User,
         successListener: () -> Unit,
         failureListener: (Exception) -> Unit
     ) {
@@ -175,9 +183,9 @@ class PostRepository @Inject constructor(
                     val post = Post(
                         posturl,
                         description,
-                        auth.currentUser!!.displayName!!,
+                        user.username,
                         url,
-                        auth.currentUser!!.uid,
+                        user.id,
                     )
                     val notification = Notification(
                         post.uid,
@@ -204,6 +212,24 @@ class PostRepository @Inject constructor(
             })
         }
     }
+
+    suspend fun sendPushNotification(message: String, user: User) =
+        withContext(Dispatchers.IO) {
+            val title = "${user.username} posted a new image"
+            for (token in user.followers.values) {
+                Timber.d(token)
+                PushNotification(
+                    data = PushNotificationItem(title = title, description = message),
+                    to = token
+                ).also {
+                    val response = api.postNotification(it)
+                    if (response.isSuccessful)
+                        Timber.d("sucess")
+                    else
+                        Timber.d("failed")
+                }
+            }
+        }
 
     private fun postNotification(notification: Notification) {
         fireStore.collection("notifications").document().set(notification)
@@ -277,25 +303,97 @@ class PostRepository @Inject constructor(
     }
 
 
-    suspend fun savePost(
-        user: User,
+    fun savePost(
+        userId: String,
         postId: String,
-        successListener: (User) -> Unit,
+        successListener: (Saved) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
-            try {
-                Timber.d("InSaveRepo")
-                val saved = user.savedPosts
-                saved[postId] = true
-                fireStore.collection("users").document(user.id)
-                    .update("savedPosts", saved)
-                    .addOnSuccessListener { successListener(user) }
-                    .addOnFailureListener { failureListener(it) }
-            } catch (e: Exception) {
-                failureListener(e)
-            }
+        try {
+            Timber.d("InSaveRepo")
+            val save = Saved(userId, postId)
+            fireStore.collection("saved").document(save.saveId)
+                .set(save)
+                .addOnSuccessListener { successListener(save) }
+                .addOnFailureListener { failureListener(it) }
+        } catch (e: Exception) {
+            failureListener(e)
+        }
+
+    }
+
+    suspend fun getSavedPosts(
+        userId: String,
+        onSuccessListener: (List<SavedPosts>) -> Unit,
+        onFailureListener: (Exception) -> Unit
+    ) = withContext(Dispatchers.IO) {
+        try {
+            fireStore.collection("saved").whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener { doc ->
+                    val savedList = mutableListOf<Saved>()
+                    val savedListIds = mutableListOf<String>()
+                    for (saved in doc.documents) {
+                        saved.toObject(Saved::class.java)?.let {
+                            savedList.add(it)
+                            savedListIds.add(it.postId)
+                        }
+                    }
+                    Timber.d(savedList.toString())
+                    getPostFromSaveIds(
+                        savedList,
+                        savedListIds,
+                        onSuccessListener,
+                        onFailureListener
+                    )
+                }
+                .addOnFailureListener(onFailureListener)
+        } catch (e: Exception) {
+            onFailureListener(e)
         }
     }
 
+    private fun getPostFromSaveIds(
+        savedList: MutableList<Saved>,
+        savedListIds: MutableList<String>,
+        onSuccessListener: (List<SavedPosts>) -> Unit,
+        onFailureListener: (Exception) -> Unit
+    ) {
+        val savedPosts = mutableListOf<SavedPosts>()
+        fireStore.collection("posts").whereIn("postUid", savedListIds)
+            .get()
+            .addOnSuccessListener { docs ->
+                for (document in docs.documents) {
+                    document.toObject(Post::class.java)?.let { post ->
+                        savedPosts.add(
+                            SavedPosts(
+                                post = post,
+                                timeStamp = post.timeStamp.toString()
+                            )
+                        )
+                    }
+                }
+                Timber.d(savedPosts.toString())
+                onSuccessListener(savedPosts)
+            }
+            .addOnFailureListener(onFailureListener)
+    }
+
+
+    //local
+
+    fun getDownloadedPosts() = postDao.getAllDownloadedPosts()
+
+    @ExperimentalCoroutinesApi
+    suspend fun insertPost(post: Post) = withContext(Dispatchers.IO) {
+        val postImage = urlToBitmap(context, post.url).first()
+        Timber.d(postImage.toString())
+        val profileImage = urlToBitmap(context, post.profileImg).first()
+        Timber.d(profileImage.toString())
+        val downloadedPost = DownloadedPost(
+            postImage, profileImage, post.description, post.username, post.likes
+        )
+        Timber.d(downloadedPost.toString())
+        postDao.saveDownloadedPost(downloadedPost)
+    }
 }

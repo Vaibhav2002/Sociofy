@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/textView"
-        style="@style/TextAppearance.MdcTypographyStyles.Headline5"
+        style="@style/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/imageSelect"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="360dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/image_upload"
@@ -59,15 +59,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/uploadButton"
-        style="@style/authButton"
+        android:background="@drawable/auth_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:padding="16dp"
+        android:padding="8dp"
         android:text="@string/upload"
         android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Button"
         app:layout_constraintBottom_toBottomOf="parent"

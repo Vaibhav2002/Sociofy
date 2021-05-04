@@ -22,7 +22,7 @@ class UserListViewModel @ViewModelInject constructor(private val repo: AuthRepos
     private val _userListStatus = Channel<Status>()
     val userListStatus = _userListStatus.receiveAsFlow()
 
-    fun getUsersList(users: MutableMap<String, Boolean>) {
+    fun getUsersList(users: MutableMap<String, String>) {
         viewModelScope.launch {
             _userListStatus.send(Status.Loading)
             repo.getUsersByFilter(users, successListener = {

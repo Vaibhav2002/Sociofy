@@ -6,9 +6,10 @@
     <data>
 
         <variable
-            name="post"
-            type="com.vaibhav.sociofy.data.models.Post" />
+            name="downloadedPost"
+            type="com.vaibhav.sociofy.data.models.local.DownloadedPost" />
     </data>
+
 
     <androidx.cardview.widget.CardView
         style="@style/cardItem"
@@ -26,7 +27,7 @@
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/imageView"
-                setProfileImage="@{post.profileImg}"
+                setDownloadedProfileImage="@{downloadedPost.profileImg}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -46,7 +47,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="10dp"
-                android:text="@{post.username}"
+                android:text="@{downloadedPost.username}"
                 app:layout_constraintBottom_toTopOf="@+id/textView10"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +55,7 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                setPostImage="@{post.url}"
+                setDownloadedPostImage="@{downloadedPost.url}"
                 android:layout_width="0dp"
                 android:layout_height="420dp"
                 android:layout_marginTop="16dp"
@@ -64,17 +65,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/like_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                tools:srcCompat="@drawable/heart_selector" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -84,27 +74,17 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{post.description}"
+                android:text="@{downloadedPost.description}"
                 app:layout_constraintEnd_toStartOf="@+id/like_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et" />
 
-            <ImageView
-                android:id="@+id/share_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/like_button"
-                app:layout_constraintEnd_toStartOf="@+id/like_button"
-                app:layout_constraintTop_toTopOf="@+id/like_button"
-                app:layout_constraintVertical_bias="0.100000024"
-                app:srcCompat="@drawable/share_selector" />
 
             <TextView
                 android:id="@+id/textView10"
                 style="@style/TextAppearance.MdcTypographyStyles.Caption"
-                setTimeElapsed="@{post.timeStamp}"
+                setTimeElapsed="@{downloadedPost.timeStamp}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -113,7 +93,7 @@
                 tools:text="30min ago" />
 
             <TextView
-                setLikes="@{post.likes}"
+                setLikes="@{downloadedPost.likes}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -125,19 +105,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 tools:text="2.5k likes" />
 
-            <ImageButton
-                android:id="@+id/optionsMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                android:tint="?attr/colorOnSurface"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/options" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>
+
 </layout>

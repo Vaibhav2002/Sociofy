@@ -19,6 +19,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="postItem">
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+
     <style name="custom_outlined_button" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="strokeColor">?attr/colorPrimaryVariant</item>
@@ -46,6 +50,7 @@
 
     <style name="AppBar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">@color/surface_dark</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="bottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">
@@ -164,7 +169,7 @@
 
     <style name="authButton">
         <item name="color">?attr/colorPrimary</item>
-        <item name="cornerRadius">20dp</item>
+        <item name="cornerRadius">24dp</item>
 
     </style>
 

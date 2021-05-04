@@ -12,6 +12,7 @@
 
     <color name="authTextBgColor">#d9d9de</color>
     <color name="authTextBgDark">?attr/colorBackgroundFloating</color>
+    <color name="white">#ffffff</color>
 
     //light theme colors
     <color name="surface_light">#f0f0f0</color>

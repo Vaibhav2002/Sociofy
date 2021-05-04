@@ -18,7 +18,7 @@ class AuthRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val fireStore: FirebaseFirestore,
     private val storage: FirebaseStorage,
-    private val fcm: FirebaseMessaging
+    private val fcm: FirebaseMessaging,
 ) {
 
     fun isLoggedIn() = auth.currentUser != null
@@ -38,7 +38,11 @@ class AuthRepository @Inject constructor(
     ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                successListener.invoke()
+                getToken({
+                    addUserTokenToFireStore(it, successListener, failureListener)
+                }, failureListener = {
+                    failureListener(it)
+                })
             }
             .addOnFailureListener { exception ->
                 failureListener.invoke(exception)
@@ -54,7 +58,6 @@ class AuthRepository @Inject constructor(
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-
                 if (isLoggedIn()) {
                     getToken(successListener = {
                         Timber.d(it)
@@ -220,11 +223,15 @@ class AuthRepository @Inject constructor(
 
     }
 
-    fun addUserTokenToFireStore(token: String) {
+    private fun addUserTokenToFireStore(
+        token: String,
+        successListener: () -> Unit,
+        failureListener: (Exception) -> Unit
+    ) {
         val userId = getCurrentUserId()
         fireStore.collection("users").document(userId).update("deviceToken", token)
-            .addOnSuccessListener { Timber.d("Token saved in firestore") }
-            .addOnFailureListener { Timber.d("Token saving failed") }
+            .addOnSuccessListener { successListener() }
+            .addOnFailureListener { failureListener(it) }
 
     }
 
@@ -234,6 +241,7 @@ class AuthRepository @Inject constructor(
         successListener: () -> Unit,
         failureListener: (Exception) -> Unit
     ) {
+
         auth.currentUser?.let {
             val user = User(it.uid, username, it.email!!)
             user.deviceToken = token
@@ -306,9 +314,9 @@ class AuthRepository @Inject constructor(
     ) {
         withContext(Dispatchers.IO) {
             val followingMap = userToBeFollowed.followers
-            followingMap[currentUser.id] = true
+            followingMap[currentUser.id] = currentUser.deviceToken
             val followerMap = currentUser.following
-            followerMap[userToBeFollowed.id] = true
+            followerMap[userToBeFollowed.id] = userToBeFollowed.deviceToken
             fireStore.collection("users").document(currentUser.id).update("following", followerMap)
                 .addOnSuccessListener {
                     fireStore.collection("users").document(userToBeFollowed.id)
@@ -352,7 +360,7 @@ class AuthRepository @Inject constructor(
 
 
     suspend fun getUsersByFilter(
-        following: MutableMap<String, Boolean>,
+        following: MutableMap<String, String>,
         successListener: (List<User>) -> Unit,
         failureListener: (Exception) -> Unit
     ) {

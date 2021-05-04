@@ -22,5 +22,8 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
         navController = findNavController(R.id.fragmentController)
         viewModel.setUser(navArgs.user)
+        setSupportActionBar(binding.myToolbar)
+
     }
+
 }

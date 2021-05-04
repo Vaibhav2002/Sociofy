@@ -9,6 +9,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarLayout"
+        app:elevation="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,6 +18,7 @@
             style="@style/AppBar"
             android:layout_width="match_parent"
             app:menu="@menu/action_bar_menu"
+            android:elevation="0dp"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways">
 
@@ -66,6 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:fabCradleMargin="18dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        app:elevation="8dp"
         app:hideOnScroll="true"
         app:fabCradleRoundedCornerRadius="30dp"
         app:fabCradleVerticalOffset="10dp"
@@ -79,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
-            android:paddingHorizontal="16dp"
+            android:paddingVertical="4dp"
             app:itemIconTint="?attr/colorOnSurface"
             app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_nav_menu" />

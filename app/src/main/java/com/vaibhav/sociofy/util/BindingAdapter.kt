@@ -1,5 +1,6 @@
 package com.vaibhav.sociofy.util
 
+import android.graphics.Bitmap
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -23,6 +24,24 @@ fun ImageView.setPostImage(url: String) {
         .centerCrop()
         .into(this)
 }
+
+@BindingAdapter("setDownloadedProfileImage")
+fun ImageView.setDownloadedProfileImage(bitmap: Bitmap) {
+    Glide.with(this)
+        .load(bitmap)
+        .centerCrop()
+        .error(R.drawable.blankuserimg)
+        .into(this)
+}
+
+@BindingAdapter("setDownloadedPostImage")
+fun ImageView.setDownloadedPostImage(bitmap: Bitmap) {
+    Glide.with(this)
+        .load(bitmap)
+        .centerCrop()
+        .into(this)
+}
+
 
 @BindingAdapter("setTimeElapsed")
 fun TextView.setTimeElapsed(postTime: Long) {

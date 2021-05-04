@@ -12,114 +12,78 @@
     tools:context=".ui.settingScreen.settingsMainScreen.SettingMainFragment">
 
 
-    <RelativeLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/edit_Profile"
+        style="@style/userListItem"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_vertical"
+        android:drawableStart="@drawable/edit"
+        android:layout_marginBottom="4dp"
+        android:drawablePadding="16dp"
+        android:drawableTint="?attr/colorOnBackground"
+        android:elevation="0dp"
+        android:gravity="center_vertical"
+        android:paddingVertical="16dp"
+        android:paddingStart="16dp"
+        android:text="Edit Profile"
+        android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/savedPosts"
         style="@style/userListItem"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginBottom="4dp"
-        android:paddingHorizontal="16dp">
+        android:drawableStart="@drawable/save"
+        android:drawablePadding="16dp"
+        android:drawableTint="?attr/colorOnBackground"
+        android:elevation="0dp"
+        android:gravity="center_vertical"
+        android:paddingVertical="16dp"
+        android:paddingStart="16dp"
+        android:text="Saved Posts"
+        android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
 
-        <TextView
-            android:id="@+id/edit_Profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableStart="@drawable/edit"
-            android:drawablePadding="16dp"
-            android:drawableTint="?attr/colorOnBackground"
-            android:text="Edit Profile"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
 
-    </RelativeLayout>
-
-    <!--        <RelativeLayout-->
-    <!--            style="@style/userListItem"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="64dp"-->
-    <!--            android:layout_marginBottom="4dp"-->
-    <!--            android:paddingHorizontal="16dp">-->
-
-    <!--            <TextView-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_centerVertical="true"-->
-    <!--                android:drawableStart="@drawable/night"-->
-    <!--                android:drawablePadding="16dp"-->
-    <!--                android:drawableTint="?attr/colorOnBackground"-->
-    <!--                android:text="Dark Theme"-->
-    <!--                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />-->
-
-    <!--            <com.google.android.material.switchmaterial.SwitchMaterial-->
-    <!--                android:id="@+id/darkmodeswitch"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_alignParentEnd="true"-->
-    <!--                android:layout_centerVertical="true"-->
-    <!--                android:checked="true"-->
-    <!--                android:elevation="8dp"-->
-    <!--                app:splitTrack="true"-->
-    <!--                app:useMaterialThemeColors="true" />-->
-
-    <!--        </RelativeLayout>-->
-
-    <RelativeLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/downloadedPosts"
         style="@style/userListItem"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
         android:layout_marginBottom="4dp"
-        android:paddingHorizontal="16dp">
+        android:drawableStart="@drawable/download"
+        android:drawablePadding="16dp"
+        android:drawableTint="?attr/colorOnBackground"
+        android:elevation="0dp"
+        android:gravity="center_vertical"
+        android:paddingVertical="16dp"
+        android:paddingStart="16dp"
+        android:text="Downloaded Posts"
+        android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
 
-        <TextView
-            android:id="@+id/savedPosts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableStart="@drawable/save"
-            android:drawablePadding="16dp"
-            android:drawableTint="?attr/colorOnBackground"
-            android:text="Saved Posts"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logout"
         style="@style/userListItem"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
         android:layout_marginBottom="4dp"
-        android:paddingHorizontal="16dp">
+        android:drawableStart="@drawable/logout"
+        android:drawablePadding="16dp"
+        android:drawableTint="?attr/colorOnBackground"
+        android:elevation="0dp"
+        android:gravity="center_vertical"
+        android:paddingVertical="16dp"
+        android:paddingStart="16dp"
+        android:text="Log Out"
+        android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
 
-        <TextView
-            android:id="@+id/downloadedPosts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableStart="@drawable/download"
-            android:drawablePadding="16dp"
-            android:drawableTint="?attr/colorOnBackground"
-            android:text="Downloaded Posts"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        style="@style/userListItem"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginBottom="4dp"
-        android:paddingHorizontal="16dp">
-
-        <TextView
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableStart="@drawable/logout"
-            android:drawablePadding="16dp"
-            android:drawableTint="?attr/colorOnBackground"
-            android:text="Log Out"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline6" />
-
-    </RelativeLayout>
 
 </LinearLayout>

@@ -22,6 +22,7 @@ import com.vaibhav.sociofy.util.Shared.GridPostsAdapter
 import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.showErrorToast
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -43,10 +44,26 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         })
 
         binding.followerCount.setOnClickListener {
-            navigateToUserList(viewModel.userDetails.value ?: User(), Constants.LIST_FOR.Followers)
+            viewModel.userDetails.value?.let {
+                Timber.d(it.getFollowerCount())
+                if (it.getFollowerCount().toInt() != 0)
+                    navigateToUserList(
+                        viewModel.userDetails.value ?: User(),
+                        Constants.LIST_FOR.Followers
+                    )
+            }
+
         }
         binding.followingCount.setOnClickListener {
-            navigateToUserList(viewModel.userDetails.value ?: User(), Constants.LIST_FOR.Following)
+            viewModel.userDetails.value?.let {
+                Timber.d(it.getFollowingCount())
+                if (it.getFollowingCount().toInt() != 0)
+                    navigateToUserList(
+                        viewModel.userDetails.value ?: User(),
+                        Constants.LIST_FOR.Following
+                    )
+            }
+
         }
 
 

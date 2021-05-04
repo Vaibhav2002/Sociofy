@@ -12,7 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sociofy">
-        <service android:name=".fcm.service.FCMService" />
+        <service
+            android:name=".fcm.service.FCMService"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
 
         <activity android:name=".ui.settingScreen.SettingsActivity"></activity>
         <activity android:name=".ui.UserListScreen.UserListActivity" />

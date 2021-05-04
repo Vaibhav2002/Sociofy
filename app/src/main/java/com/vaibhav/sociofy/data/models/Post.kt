@@ -9,11 +9,11 @@ data class Post(
     val username: String = "",
     val profileImg: String = "",
     val uid: String = "",
-    val timeStamp: Long = System.currentTimeMillis()
+    var timeStamp: Long = System.currentTimeMillis(),
+    var likes: Int = 0,
+    val likedBy: MutableMap<String, Boolean> = mutableMapOf<String, Boolean>(),
+    val postUid: String = "$username+$timeStamp"
 ) : Serializable {
-    var likes = 0
-    val likedBy = mutableMapOf<String, Boolean>()
-    val postUid = "$username+$timeStamp"
 
 
 }

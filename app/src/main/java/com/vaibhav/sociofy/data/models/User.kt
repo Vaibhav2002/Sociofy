@@ -10,8 +10,8 @@ data class User(
     val profileImg: String = ""
 ) : Serializable {
     var bio = ""
-    val following = mutableMapOf<String, Boolean>()
-    val followers = mutableMapOf<String, Boolean>()
+    val following = mutableMapOf<String, String>()
+    val followers = mutableMapOf<String, String>()
     val savedPosts = mutableMapOf<String, Boolean>()
     var deviceToken = ""
     fun getFollowerCount() = followers.size.toString()

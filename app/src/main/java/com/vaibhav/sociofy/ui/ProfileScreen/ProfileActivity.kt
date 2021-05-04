@@ -80,10 +80,12 @@ class ProfileActivity : AppCompatActivity() {
         })
 
         binding.followerCount.setOnClickListener {
-            navigateToUserList(user, Constants.LIST_FOR.Followers)
+            if (user.getFollowerCount().toInt() != 0)
+                navigateToUserList(user, Constants.LIST_FOR.Followers)
         }
         binding.followingCount.setOnClickListener {
-            navigateToUserList(user, Constants.LIST_FOR.Following)
+            if (user.getFollowingCount().toInt() != 0)
+                navigateToUserList(user, Constants.LIST_FOR.Following)
         }
 
         lifecycleScope.launchWhenStarted {
