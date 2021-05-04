@@ -67,4 +67,17 @@ class SavedPostsViewModel @ViewModelInject constructor(
             })
         }
     }
+
+
+//    fun deleteSavedPost(saved: Saved) = viewModelScope.launch {
+//        _savedPosts.postValue(Resource.Loading())
+//        postRepository.removeSavedPost(saved.saveId,
+//            successListener = {
+//                getSavedPosts()
+//            },
+//            failureListener = {
+//                _savedPosts.postValue(Resource.Error(it.localizedMessage ?: DEFAULT_ERROR))
+//            }
+//        )
+//    }
 }

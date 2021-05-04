@@ -396,4 +396,10 @@ class PostRepository @Inject constructor(
         Timber.d(downloadedPost.toString())
         postDao.saveDownloadedPost(downloadedPost)
     }
+
+
+    suspend fun deleteDownloadedPost(downloadedPost: DownloadedPost) = withContext(Dispatchers.IO) {
+        postDao.deleteDownloadedPost(downloadedPost)
+    }
+
 }

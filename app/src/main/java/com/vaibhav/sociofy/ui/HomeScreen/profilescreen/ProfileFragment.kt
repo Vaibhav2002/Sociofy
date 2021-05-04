@@ -29,6 +29,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: HomeViewModel by activityViewModels()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProfileBinding.bind(view)
@@ -119,18 +120,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu -> {
+            R.id.hamburger -> {
                 val action =
                     ProfileFragmentDirections.actionProfileFragmentToSettingsActivity(viewModel.userDetails.value!!)
                 findNavController().navigate(action)
                 true
             }
-            else -> super.onOptionsItemSelected(item)
-
+            else -> false
         }
-
     }
+
+
 }

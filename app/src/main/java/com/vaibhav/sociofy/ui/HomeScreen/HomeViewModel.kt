@@ -194,6 +194,7 @@ class HomeViewModel @ViewModelInject constructor(
             postRepository.savePost(userId = userId, postId = post.postUid,
                 successListener = {
                     _postInteractionStatus.postValue(InteractionStatus.Success("Post Saved successfully"))
+                    _postInteractionStatus.postValue(InteractionStatus.Loading)
                 },
                 failureListener = {
                     _postInteractionStatus.postValue(InteractionStatus.Success("Post Save unsuccessful"))

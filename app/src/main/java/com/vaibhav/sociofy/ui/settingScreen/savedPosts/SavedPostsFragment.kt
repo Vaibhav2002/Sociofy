@@ -56,6 +56,7 @@ class SavedPostsFragment : Fragment(R.layout.fragment_saved_posts), onItemClick 
             }
         }
 
+
     }
 
     override fun onProfileClick(post: Post) {

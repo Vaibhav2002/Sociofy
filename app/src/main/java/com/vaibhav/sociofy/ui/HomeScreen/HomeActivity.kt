@@ -39,7 +39,6 @@ class HomeActivity : AppCompatActivity() {
 //            startActivity(Intent(this, SettingsActivity::class.java))
 //        }
 
-
         val radius = resources.getDimension(R.dimen.corner_radius)
         Timber.d(binding.bottomAppBar.measuredHeight.toString())
         val bottomBarBackground = binding.bottomAppBar.background as MaterialShapeDrawable
