@@ -82,7 +82,10 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
             }
         }
         viewModel.feed.observe(viewLifecycleOwner, {
-            feedAdapter.submitList(it)
+            if (it.isEmpty())
+                showEmptyState()
+            else
+                feedAdapter.submitList(it)
         })
     }
 
@@ -131,5 +134,12 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
     private fun showViewsForError(message: String) {
         binding.loadingAnim.isVisible = false
         showErrorToast(requireContext(), requireActivity(), message)
+    }
+
+
+    private fun showEmptyState() {
+        binding.loadingAnim.isVisible = false
+        binding.emptyStateTextView.text = resources.getString(R.string.empty_state_feed)
+        binding.emptyStateLinear.isVisible = true
     }
 }

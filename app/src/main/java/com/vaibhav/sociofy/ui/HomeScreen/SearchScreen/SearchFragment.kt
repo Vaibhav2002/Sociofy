@@ -52,7 +52,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             setHasFixedSize(false)
         }
         viewModel.allFeed.observe(viewLifecycleOwner, {
-            postAdapter.submitList(it)
+            if (it.isEmpty())
+                showEmptyState()
+            else
+                postAdapter.submitList(it)
         })
 
         viewModel.userList.observe(viewLifecycleOwner, {
@@ -74,6 +77,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun showViewsForError(message: String) {
         binding.loadingAnim.isVisible = false
         showErrorToast(requireContext(), requireActivity(), message)
+    }
+
+    private fun showEmptyState() {
+        binding.loadingAnim.isVisible = false
+        binding.emptyStateTextView.text =
+            resources.getString(R.string.empty_state_search)
+        binding.emptyStateLinear.isVisible = true
     }
 
 }

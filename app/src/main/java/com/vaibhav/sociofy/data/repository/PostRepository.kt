@@ -340,12 +340,14 @@ class PostRepository @Inject constructor(
                         }
                     }
                     Timber.d(savedList.toString())
-                    getPostFromSaveIds(
-                        savedList,
-                        savedListIds,
-                        onSuccessListener,
-                        onFailureListener
-                    )
+                    if (savedListIds.isEmpty())
+                        onSuccessListener(emptyList())
+                    else
+                        getPostFromSaveIds(
+                            savedListIds,
+                            onSuccessListener,
+                            onFailureListener
+                        )
                 }
                 .addOnFailureListener(onFailureListener)
         } catch (e: Exception) {
@@ -354,7 +356,6 @@ class PostRepository @Inject constructor(
     }
 
     private fun getPostFromSaveIds(
-        savedList: MutableList<Saved>,
         savedListIds: MutableList<String>,
         onSuccessListener: (List<SavedPosts>) -> Unit,
         onFailureListener: (Exception) -> Unit

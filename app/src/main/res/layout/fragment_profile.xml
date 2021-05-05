@@ -11,175 +11,217 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.HomeScreen.profilescreen.ProfileFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout3"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.HomeScreen.profilescreen.ProfileFragment">
+            android:layout_height="match_parent">
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/circularImageView"
-                android:layout_width="@dimen/profileImageBig"
-                android:layout_height="@dimen/profileImageBig"
-                android:layout_marginTop="64dp"
-                android:src="@drawable/blankuserimg"
-                app:civ_border_color="?attr/colorPrimaryVariant"
-                app:civ_border_width="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/blankuserimg" />
-
-            <Button
-                android:id="@+id/posts_count"
-                style="@style/TextAppearance.MdcTypographyStyles.Headline5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:includeFontPadding="false"
-                android:text="@string/_0"
-                android:textColor="?attr/colorOnSurface"
-                app:layout_constraintEnd_toStartOf="@+id/follower_count"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bio" />
-
-            <Button
-                android:id="@+id/follower_count"
-                style="@style/TextAppearance.MdcTypographyStyles.Headline5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:includeFontPadding="false"
-                android:text="@{user.followerCount}"
-                android:textColor="?attr/colorOnSurface"
-                app:layout_constraintEnd_toStartOf="@+id/following_count"
-                app:layout_constraintStart_toEndOf="@+id/posts_count"
-                app:layout_constraintTop_toBottomOf="@+id/bio"
-                tools:text="@string/_0" />
-
-            <Button
-                android:id="@+id/following_count"
-                style="@style/TextAppearance.MdcTypographyStyles.Headline5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:includeFontPadding="false"
-                android:text="@{user.followingCount}"
-                android:textColor="?attr/colorOnSurface"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/follower_count"
-                app:layout_constraintTop_toBottomOf="@+id/bio"
-                tools:text="@string/_0" />
-
-            <TextView
-                android:id="@+id/textView5"
-                style="@style/TextAppearance.MdcTypographyStyles.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/posts"
-                app:layout_constraintEnd_toEndOf="@+id/posts_count"
-                app:layout_constraintStart_toStartOf="@+id/posts_count"
-                app:layout_constraintTop_toBottomOf="@+id/posts_count" />
-
-            <TextView
-                android:id="@+id/textView6"
-                style="@style/TextAppearance.MdcTypographyStyles.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/followers"
-                app:layout_constraintEnd_toEndOf="@+id/follower_count"
-                app:layout_constraintStart_toStartOf="@+id/follower_count"
-                app:layout_constraintTop_toBottomOf="@+id/follower_count" />
-
-            <TextView
-                android:id="@+id/textView7"
-                style="@style/TextAppearance.MdcTypographyStyles.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/following"
-                app:layout_constraintEnd_toEndOf="@+id/following_count"
-                app:layout_constraintStart_toStartOf="@+id/following_count"
-                app:layout_constraintTop_toBottomOf="@+id/following_count" />
-
-
-            <TextView
-                android:id="@+id/textView8"
-                style="@style/TextAppearance.MdcTypographyStyles.Headline5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{user.username}"
-                app:layout_constraintEnd_toEndOf="@+id/circularImageView"
-                app:layout_constraintStart_toStartOf="@+id/circularImageView"
-                app:layout_constraintTop_toBottomOf="@+id/circularImageView"
-                tools:text="Vaibhav2511" />
-
-            <TextView
-                android:id="@+id/bio"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@{user.bio}"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView8"
-                tools:text="Hello, i am an android dev.\n good in ui ux also" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/postRecycler"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="64dp"
-                android:paddingHorizontal="16dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:spanCount="3"
-                tools:listitem="@layout/profile_screen_post_grid_item" />
+                android:layout_height="match_parent"
+                tools:context=".ui.HomeScreen.profilescreen.ProfileFragment">
 
-            <TextView
-                android:id="@+id/textView4"
-                style="@style/TextAppearance.MdcTypographyStyles.Headline5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:includeFontPadding="false"
-                android:text="@string/posts"
-                android:textColor="?attr/colorOnSurface"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/circularImageView"
+                    android:layout_width="@dimen/profileImageBig"
+                    android:layout_height="@dimen/profileImageBig"
+                    android:layout_marginTop="70dp"
+                    android:src="@drawable/blankuserimg"
+                    app:civ_border_color="?attr/colorPrimaryVariant"
+                    app:civ_border_width="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/blankuserimg" />
+
+                <Button
+                    android:id="@+id/posts_count"
+                    style="@style/TextAppearance.MdcTypographyStyles.Headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:includeFontPadding="false"
+                    android:text="@string/_0"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintBottom_toBottomOf="@+id/follower_count"
+                    app:layout_constraintEnd_toStartOf="@+id/follower_count"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/follower_count" />
+
+                <Button
+                    android:id="@+id/follower_count"
+                    style="@style/TextAppearance.MdcTypographyStyles.Headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:includeFontPadding="false"
+                    android:text="@{user.followerCount}"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintEnd_toStartOf="@+id/following_count"
+                    app:layout_constraintStart_toEndOf="@+id/posts_count"
+                    app:layout_constraintTop_toBottomOf="@+id/bio"
+                    tools:text="@string/_0" />
+
+                <Button
+                    android:id="@+id/following_count"
+                    style="@style/TextAppearance.MdcTypographyStyles.Headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:includeFontPadding="false"
+                    android:text="@{user.followingCount}"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintBottom_toBottomOf="@+id/follower_count"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/follower_count"
+                    app:layout_constraintTop_toTopOf="@+id/follower_count"
+                    tools:text="@string/_0" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/posts"
+                    app:layout_constraintEnd_toEndOf="@+id/posts_count"
+                    app:layout_constraintStart_toStartOf="@+id/posts_count"
+                    app:layout_constraintTop_toBottomOf="@+id/posts_count" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/followers"
+                    app:layout_constraintEnd_toEndOf="@+id/follower_count"
+                    app:layout_constraintStart_toStartOf="@+id/follower_count"
+                    app:layout_constraintTop_toBottomOf="@+id/follower_count" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    style="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/following"
+                    app:layout_constraintEnd_toEndOf="@+id/following_count"
+                    app:layout_constraintStart_toStartOf="@+id/following_count"
+                    app:layout_constraintTop_toBottomOf="@+id/following_count" />
 
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/loadingAnim"
-                android:layout_width="@dimen/loadingAnimSize"
-                android:layout_height="@dimen/loadingAnimSize"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading" />
+                <TextView
+                    android:id="@+id/textView8"
+                    style="@style/TextAppearance.MdcTypographyStyles.Headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{user.username}"
+                    app:layout_constraintEnd_toEndOf="@+id/circularImageView"
+                    app:layout_constraintStart_toStartOf="@+id/circularImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/circularImageView"
+                    tools:text="Vaibhav2511" />
+
+                <TextView
+                    android:id="@+id/bio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{user.bio}"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView8"
+                    tools:text="Hello, i am an android dev.\n good in ui ux also" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/postRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="64dp"
+                    android:paddingHorizontal="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:spanCount="3"
+                    tools:listitem="@layout/profile_screen_post_grid_item" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    style="@style/TextAppearance.MdcTypographyStyles.Headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/posts"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                <LinearLayout
+                    android:id="@+id/empty_state_linear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/empty_state" />
+
+                    <TextView
+                        android:id="@+id/emptyStateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:padding="16dp"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                        android:textColor="?attr/colorOnBackground"
+                        tools:text="Looks like there are no posts from\nyour followers. Follow new people \nto see their posts" />
+
+                </LinearLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loadingAnim"
+            android:layout_width="@dimen/loadingAnimSize"
+            android:layout_height="@dimen/loadingAnimSize"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

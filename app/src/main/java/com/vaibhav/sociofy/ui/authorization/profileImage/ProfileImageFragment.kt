@@ -28,9 +28,6 @@ class ProfileImageFragment : Fragment(R.layout.fragment_profile_image) {
         binding.uploadButton.setOnClickListener {
             viewModel.upload()
         }
-        binding.skipButton.setOnClickListener {
-            viewModel.upload()
-        }
         binding.addImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"

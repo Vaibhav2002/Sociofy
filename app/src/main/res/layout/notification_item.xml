@@ -14,14 +14,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         style="@style/userListItem"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="2dp"
         android:layout_height="wrap_content">
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/circularImageView2"
             setProfileImage="@{notification.profilePic}"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
@@ -41,7 +41,8 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="3"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body2"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+            android:textColor="?attr/colorOnBackground"
             app:layout_constraintBottom_toBottomOf="@+id/circularImageView2"
             app:layout_constraintEnd_toStartOf="@+id/imageView6"
             app:layout_constraintHorizontal_bias="1.0"
@@ -52,8 +53,8 @@
         <ImageView
             android:id="@+id/imageView6"
             setPostImage="@{notification.postImg}"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"

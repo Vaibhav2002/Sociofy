@@ -51,7 +51,10 @@ class SavedPostsFragment : Fragment(R.layout.fragment_saved_posts), onItemClick 
                 }
                 is Resource.Success -> {
                     binding.loadingAnim.isVisible = false
-                    postAdapter.submitList(it.data ?: emptyList())
+                    if (it.data.isNullOrEmpty())
+                        showEmptyState()
+                    else
+                        postAdapter.submitList(it.data ?: emptyList())
                 }
             }
         }
@@ -83,5 +86,11 @@ class SavedPostsFragment : Fragment(R.layout.fragment_saved_posts), onItemClick 
 
     override fun onDownloadClicked(post: Post) {
 
+    }
+
+    private fun showEmptyState() {
+        binding.loadingAnim.isVisible = false
+        binding.emptyStateTextView.text = resources.getString(R.string.empty_state_saved)
+        binding.emptyStateLinear.isVisible = true
     }
 }

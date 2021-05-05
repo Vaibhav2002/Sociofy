@@ -22,4 +22,30 @@
     <string name="enter_description">Enter Description</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+
+
+    <string name="empty_state_feed">Looks like there are no posts from \nyour followers. Follow new
+        people \nto see their posts</string>
+
+    <string name="empty_state_notification">Looks like there are no posts from \nyour followers.
+        Follow new people \nto see their post notifications</string>
+
+    <string name="empty_state_saved">Looks like there are no saved posts.\nTry saving a post to view
+        it here.</string>
+
+    <string name="empty_state_download">Looks like there are no downloaded posts.\nTry downloading a
+        post to view
+        it here.
+    </string>
+
+    <string name="empty_state_profile">Looks like you don\'t have any posts yet.\nClick the plus button below and create your new post
+    </string>
+
+    <string name="empty_state_others_profile">Looks like this person does\'nt have any post yet.
+    </string>
+
+    <string name="empty_state_search">Looks like none of the users have posted anything yet.
+    </string>
+
+
 </resources>

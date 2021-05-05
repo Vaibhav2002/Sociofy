@@ -2,6 +2,7 @@ package com.vaibhav.sociofy.ui.settingScreen.downloadedPosts
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -29,7 +30,10 @@ class DownloadedPostsFragment : Fragment(R.layout.fragment_downloaded_posts) {
         }
 
         viewModel.downloadedPosts.observe(viewLifecycleOwner) {
-            downloadedPostAdapter.submitList(it)
+            if (it.isEmpty())
+                showEmptyState()
+            else
+                downloadedPostAdapter.submitList(it)
         }
         (activity as SettingsActivity).supportActionBar?.title = "Downloaded Posts"
 
@@ -55,4 +59,10 @@ class DownloadedPostsFragment : Fragment(R.layout.fragment_downloaded_posts) {
         }).attachToRecyclerView(binding.downloadedRecycler)
     }
 
+
+    private fun showEmptyState() {
+        binding.emptyStateTextView.text = resources.getString(R.string.empty_state_download)
+        binding.emptyStateLinear.isVisible = true
+    }
 }
+

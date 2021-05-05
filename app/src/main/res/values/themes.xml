@@ -78,6 +78,12 @@
     </style>
 
 
+    <style name="authTextBox">
+        <item name="android:background">@drawable/inputbox</item>
+        <item name="android:textAppearance">@style/TextAppearance.MdcTypographyStyles.Body1</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
     <style name="descriptionBox">
         <item name="android:textAppearance">@style/TextAppearance.MdcTypographyStyles.Body1</item>
         <item name="android:background">@drawable/description_box</item>

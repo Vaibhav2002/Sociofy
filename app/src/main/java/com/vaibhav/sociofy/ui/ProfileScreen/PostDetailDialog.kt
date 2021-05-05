@@ -31,6 +31,9 @@ class PostDetailDialog(private val userId: String, private val post: Post) : Dia
         binding.likeButton.setOnClickListener {
             likeButtonPressed(post)
         }
+        binding.closeButton.setOnClickListener {
+            dismiss()
+        }
 
         return yourDialog
     }

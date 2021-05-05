@@ -79,7 +79,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         })
         viewModel.userPosts.observe(viewLifecycleOwner, { posts ->
             binding.postsCount.text = posts.size.toString()
-            postAdapter.submitList(posts)
+            if (posts.isEmpty())
+                showEmptyState()
+            else
+                postAdapter.submitList(posts)
         })
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.userPageStatus.collect { status ->
@@ -132,5 +135,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
+    private fun showEmptyState() {
+        binding.loadingAnim.isVisible = false
+        binding.emptyStateTextView.text = resources.getString(R.string.empty_state_profile)
+        binding.emptyStateLinear.isVisible = true
+    }
 
 }

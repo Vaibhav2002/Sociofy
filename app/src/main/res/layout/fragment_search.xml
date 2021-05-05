@@ -8,44 +8,51 @@
     android:layout_width="match_parent"
     tools:context=".ui.HomeScreen.SearchScreen.SearchFragment">
 
-    <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_16"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/marginforscroll"
                 android:text="All Users"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/users_recycle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
                 tools:listitem="@layout/user_list_item_horizontal" />
 
             <TextView
+                android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_16"
-                android:layout_marginBottom="@dimen/dimen_8"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="All Posts"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/users_recycle" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/posts_recycle_grid"
@@ -53,11 +60,44 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/textView13"
                 app:spanCount="4"
                 tools:listitem="@layout/post_grid_item_small" />
 
+            <LinearLayout
+                android:id="@+id/empty_state_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                tools:visibility="visible">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/empty_state" />
+
+                <TextView
+                    android:id="@+id/emptyStateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="16dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                    android:textColor="?attr/colorOnBackground"
+                    tools:text="Looks like there are no posts from\nyour followers. Follow new people \nto see their posts" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.core.widget.NestedScrollView>

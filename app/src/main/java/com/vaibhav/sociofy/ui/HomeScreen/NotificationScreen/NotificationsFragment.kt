@@ -45,7 +45,10 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             setHasFixedSize(false)
         }
         viewModel.notificationList.observe(viewLifecycleOwner, {
-            notificationAdapter.submitList(it)
+            if (it.isEmpty())
+                showEmptyState()
+            else
+                notificationAdapter.submitList(it)
         })
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.notificationStatus.collect { status ->
@@ -61,6 +64,13 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
     private fun showViewsForError(message: String) {
         binding.loadingAnim.isVisible = false
         showErrorToast(requireContext(), requireActivity(), message)
+    }
+
+    private fun showEmptyState() {
+        binding.loadingAnim.isVisible = false
+        binding.emptyStateTextView.text =
+            resources.getString(R.string.empty_state_notification)
+        binding.emptyStateLinear.isVisible = true
     }
 
 }

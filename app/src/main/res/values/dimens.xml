@@ -3,6 +3,6 @@
     <dimen name="loadingAnimSize">160dp</dimen>
     <dimen name="marginforscroll">64dp</dimen>
     <dimen name="profileImageBig">140dp</dimen>
-    <dimen name="profileImageExtraBig">200dp</dimen>
+    <dimen name="profileImageExtraBig">180dp</dimen>
     <dimen name="corner_radius">30dp</dimen>
 </resources>

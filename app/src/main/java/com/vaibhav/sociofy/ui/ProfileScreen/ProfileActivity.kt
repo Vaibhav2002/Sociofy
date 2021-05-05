@@ -76,7 +76,10 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.userPosts.observe(this, { posts ->
             binding.postsCount.text = posts.size.toString()
-            postAdapter.submitList(posts)
+            if (posts.isEmpty())
+                showEmptyState()
+            else
+                postAdapter.submitList(posts)
         })
 
         binding.followerCount.setOnClickListener {
@@ -114,5 +117,11 @@ class ProfileActivity : AppCompatActivity() {
         intent.putExtra("user", user)
         intent.putExtra("type", listFor)
         startActivity(intent)
+    }
+
+    private fun showEmptyState() {
+        binding.loadingAnim.isVisible = false
+        binding.emptyStateTextView.text = resources.getString(R.string.empty_state_others_profile)
+        binding.emptyStateLinear.isVisible = true
     }
 }
