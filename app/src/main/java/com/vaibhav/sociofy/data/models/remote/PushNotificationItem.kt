@@ -1,4 +1,4 @@
-package com.vaibhav.sociofy.data.models
+package com.vaibhav.sociofy.data.models.remote
 
 data class PushNotificationItem(
     val title: String = "",

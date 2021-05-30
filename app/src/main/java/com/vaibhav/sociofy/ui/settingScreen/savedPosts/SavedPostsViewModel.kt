@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vaibhav.sociofy.data.models.Post
+import com.vaibhav.sociofy.data.models.remote.PostResponse
 import com.vaibhav.sociofy.data.repository.AuthRepository
 import com.vaibhav.sociofy.data.repository.PostRepository
 import com.vaibhav.sociofy.util.Constants.DEFAULT_ERROR
@@ -20,8 +20,8 @@ class SavedPostsViewModel @ViewModelInject constructor(
 ) :
     ViewModel() {
 
-    private val _savedPosts = MutableLiveData<Resource<List<Post>>>()
-    val savedPost: LiveData<Resource<List<Post>>> = _savedPosts
+    private val _savedPosts = MutableLiveData<Resource<List<PostResponse>>>()
+    val savedPostResponse: LiveData<Resource<List<PostResponse>>> = _savedPosts
 
     val userId = authRepository.getCurrentUserId()
 
@@ -33,9 +33,9 @@ class SavedPostsViewModel @ViewModelInject constructor(
         _savedPosts.postValue(Resource.Loading())
         postRepository.getSavedPosts(userId,
             onSuccessListener = { savedposts ->
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostResponse>()
                 for (p in savedposts) {
-                    posts.add(p.post.copy(timeStamp = p.timeStamp.toLong()))
+                    posts.add(p.postResponse.copy(timeStamp = p.timeStamp.toLong()))
                 }
                 posts.sortBy { it.timeStamp }
                 _savedPosts.postValue(Resource.Success(posts))
@@ -45,12 +45,12 @@ class SavedPostsViewModel @ViewModelInject constructor(
             })
     }
 
-    fun likeButtonPressed(post: Post) = likePost(post)
-    fun dislikeButtonPressed(post: Post) = dislikePost(post)
+    fun likeButtonPressed(postResponse: PostResponse) = likePost(postResponse)
+    fun dislikeButtonPressed(postResponse: PostResponse) = dislikePost(postResponse)
 
-    private fun likePost(post: Post) {
+    private fun likePost(postResponse: PostResponse) {
         viewModelScope.launch {
-            postRepository.likePost(post, successListener = {
+            postRepository.likePost(postResponse, successListener = {
                 Timber.d("PostLiked")
             }, failureListener = {
                 _savedPosts.postValue(Resource.Error("Failed to like post"))
@@ -58,9 +58,9 @@ class SavedPostsViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun dislikePost(post: Post) {
+    private fun dislikePost(postResponse: PostResponse) {
         viewModelScope.launch {
-            postRepository.dislikePost(post, successListener = {
+            postRepository.dislikePost(postResponse, successListener = {
                 Timber.d("PostDisliked")
             }, failureListener = {
                 _savedPosts.postValue(Resource.Error("Failed to dislike post"))

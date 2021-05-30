@@ -7,13 +7,12 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.databinding.FragmentLoginBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeActivity
+import com.vaibhav.sociofy.util.Shared.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -33,27 +32,26 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val password = binding.passInput.text.toString()
             loginViewModel.loginUser(email, password)
         }
-        lifecycleScope.launchWhenStarted {
-            loginViewModel.loginState.collect { state ->
-                when (state) {
-                    is LoginViewModel.Companion.Events.Success -> {
-                        binding.loadingAnim.isVisible = false
-                        showToast(state.successMessage)
-                        requireActivity().startActivity(
-                            Intent(
-                                requireContext(),
-                                HomeActivity::class.java
-                            )
+
+        loginViewModel.loginState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is Resource.Success -> {
+                    binding.loadingAnim.isVisible = false
+                    showToast("User logged in successfully")
+                    requireActivity().startActivity(
+                        Intent(
+                            requireContext(),
+                            HomeActivity::class.java
                         )
-                        requireActivity().finish()
-                    }
-                    is LoginViewModel.Companion.Events.Failure -> {
-                        binding.loadingAnim.isVisible = false
-                        Timber.d(state.failureMessage)
-                        showToast(state.failureMessage)
-                    }
-                    LoginViewModel.Companion.Events.Loading -> binding.loadingAnim.isVisible = true
+                    )
+                    requireActivity().finish()
                 }
+                is Resource.Error -> {
+                    binding.loadingAnim.isVisible = false
+                    Timber.d(state.message)
+                    showToast(state.message)
+                }
+                is Resource.Loading -> binding.loadingAnim.isVisible = true
             }
         }
     }

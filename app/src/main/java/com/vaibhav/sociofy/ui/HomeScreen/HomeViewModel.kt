@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vaibhav.sociofy.data.models.Notification
-import com.vaibhav.sociofy.data.models.Post
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.Notification
+import com.vaibhav.sociofy.data.models.remote.PostResponse
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.data.repository.AuthRepository
 import com.vaibhav.sociofy.data.repository.PostRepository
 import com.vaibhav.sociofy.util.Shared.InteractionStatus
@@ -28,13 +28,13 @@ class HomeViewModel @ViewModelInject constructor(
 
     //data
 
-    private val _allFeed = MutableLiveData<List<Post>>()
+    private val _allFeed = MutableLiveData<List<PostResponse>>()
     val allFeed = _allFeed
 
-    private val _feed = MutableLiveData<List<Post>>()
+    private val _feed = MutableLiveData<List<PostResponse>>()
     val feed = _feed
 
-    private val _userPosts = MutableLiveData<List<Post>>()
+    private val _userPosts = MutableLiveData<List<PostResponse>>()
     val userPosts = _userPosts
 
     private val _userDetails = MutableLiveData<User>()
@@ -166,12 +166,12 @@ class HomeViewModel @ViewModelInject constructor(
 
     }
 
-    fun likeButtonPressed(post: Post) = likePost(post)
-    fun dislikeButtonPressed(post: Post) = dislikePost(post)
+    fun likeButtonPressed(postResponse: PostResponse) = likePost(postResponse)
+    fun dislikeButtonPressed(postResponse: PostResponse) = dislikePost(postResponse)
 
-    private fun likePost(post: Post) {
+    private fun likePost(postResponse: PostResponse) {
         viewModelScope.launch {
-            postRepository.likePost(post, successListener = {
+            postRepository.likePost(postResponse, successListener = {
                 Timber.d("PostLiked")
             }, failureListener = {
                 viewModelScope.launch { _feedStatus.send(Status.Error(it.message!!)) }
@@ -179,9 +179,9 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun dislikePost(post: Post) {
+    private fun dislikePost(postResponse: PostResponse) {
         viewModelScope.launch {
-            postRepository.dislikePost(post, successListener = {
+            postRepository.dislikePost(postResponse, successListener = {
                 Timber.d("PostDisliked")
             }, failureListener = {
                 viewModelScope.launch { _feedStatus.send(Status.Error(it.message!!)) }
@@ -189,9 +189,9 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
-    fun savePost(post: Post) =
+    fun savePost(postResponse: PostResponse) =
         viewModelScope.launch {
-            postRepository.savePost(userId = userId, postId = post.postUid,
+            postRepository.savePost(userId = userId, postId = postResponse.postUid,
                 successListener = {
                     _postInteractionStatus.postValue(InteractionStatus.Success("Post Saved successfully"))
                     _postInteractionStatus.postValue(InteractionStatus.Loading)
@@ -203,10 +203,10 @@ class HomeViewModel @ViewModelInject constructor(
             )
         }
 
-    fun onDownloadPostPressed(post: Post) = downloadPost(post)
+    fun onDownloadPostPressed(postResponse: PostResponse) = downloadPost(postResponse)
 
     @ExperimentalCoroutinesApi
-    private fun downloadPost(post: Post) = viewModelScope.launch {
-        postRepository.insertPost(post)
+    private fun downloadPost(postResponse: PostResponse) = viewModelScope.launch {
+        postRepository.insertPost(postResponse)
     }
 }

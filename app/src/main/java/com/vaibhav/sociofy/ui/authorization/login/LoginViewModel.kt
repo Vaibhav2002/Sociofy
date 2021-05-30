@@ -1,55 +1,38 @@
 package com.vaibhav.sociofy.ui.authorization.login
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vaibhav.sociofy.data.repository.AuthRepository
+import com.vaibhav.sociofy.data.models.remote.User
+import com.vaibhav.sociofy.data.repo.AuthRepo
 import com.vaibhav.sociofy.data.repository.Preferences
-import com.vaibhav.sociofy.util.Constants
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import com.vaibhav.sociofy.util.Shared.Resource
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class LoginViewModel @ViewModelInject constructor(
-    private val authRepository: AuthRepository,
+    private val authRepo: AuthRepo,
     private val preferences: Preferences
 ) :
     ViewModel() {
 
-    companion object {
-        sealed class Events {
-            object Loading : Events()
-            class Success(val successMessage: String) : Events()
-            class Failure(val failureMessage: String) : Events()
-        }
-    }
 
-    private val _loginState = Channel<Events>()
-    val loginState = _loginState.receiveAsFlow()
+    private val _loginState = MutableLiveData<Resource<User>>()
+    val loginState: LiveData<Resource<User>> = _loginState
 
-    fun isLoggedIn() = authRepository.isLoggedIn()
+    fun isLoggedIn() = authRepo.isUserLoggedIn()
 
-    fun loginUser(email: String, password: String) {
+
+    fun loginUser(email: String, password: String) = viewModelScope.launch {
         if (validateFields(email, password)) {
-            viewModelScope.launch {
-                _loginState.send(Events.Loading)
-                authRepository.loginUser(email, password, successListener = {
-                    viewModelScope.launch {
-                        _loginState.send(Events.Success(Constants.loginSuccessMessage))
-                    }
-                }, failureListener = { exception ->
-                    viewModelScope.launch {
-                        _loginState.send(Events.Failure(exception.localizedMessage ?: ""))
-                    }
-                })
+            authRepo.loginUser(email, password).collect {
+                _loginState.postValue(it)
             }
-        } else {
-            viewModelScope.launch {
-                _loginState.send(Events.Failure(Constants.loginFailureMessage))
-            }
-        }
+        } else
+            _loginState.postValue(Resource.Error("Enter all fields correctly"))
     }
-
 
     private fun validateFields(email: String, password: String): Boolean {
         return !(email.isEmpty() || email == "" || password.isEmpty() || password == "")

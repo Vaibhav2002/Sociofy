@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.databinding.ActivitySettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
 

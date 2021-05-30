@@ -4,11 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.databinding.ActivityProfileBinding
 import com.vaibhav.sociofy.ui.UserListScreen.UserListActivity
 import com.vaibhav.sociofy.util.Constants

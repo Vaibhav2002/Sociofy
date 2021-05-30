@@ -8,9 +8,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
-import com.vaibhav.sociofy.data.local.ImageTypeConverter
-import com.vaibhav.sociofy.data.local.PostDao
-import com.vaibhav.sociofy.data.local.PostDataBase
+import com.vaibhav.sociofy.data.local.SociofyDatabase
+import com.vaibhav.sociofy.data.local.downloadedPost.DownloadedPostDao
+import com.vaibhav.sociofy.data.local.downloadedPost.ImageTypeConverter
 import com.vaibhav.sociofy.data.remote.Api
 import com.vaibhav.sociofy.util.FcmUtils.BASE_URL
 import dagger.Module
@@ -49,8 +49,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRoom(@ApplicationContext context: Context): PostDataBase = Room.databaseBuilder(
-        context, PostDataBase::class.java, "SociofyDB"
+    fun providesRoom(@ApplicationContext context: Context): SociofyDatabase = Room.databaseBuilder(
+        context, SociofyDatabase::class.java, "SociofyDB"
     )
         .fallbackToDestructiveMigration()
         .addTypeConverter(ImageTypeConverter())
@@ -58,7 +58,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesPostDao(db: PostDataBase): PostDao = db.getDao()
+    fun providesPostDao(db: SociofyDatabase): DownloadedPostDao = db.getDownloadedPostDao()
 
     @Provides
     @Singleton

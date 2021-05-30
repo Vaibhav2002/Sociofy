@@ -1,4 +1,4 @@
-package com.vaibhav.sociofy.data.local
+package com.vaibhav.sociofy.data.local.downloadedPost
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.vaibhav.sociofy.data.models.local.DownloadedPost
 
 @Dao
-interface PostDao {
+interface DownloadedPostDao {
 
     @Query("SELECT * FROM post_table ORDER BY timeStamp DESC")
     fun getAllDownloadedPosts(): LiveData<List<DownloadedPost>>

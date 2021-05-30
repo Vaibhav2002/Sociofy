@@ -4,13 +4,12 @@ package com.vaibhav.sociofy.ui.HomeScreen.feedscreen
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.Post
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.PostResponse
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.databinding.FragmentFeedBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity
@@ -90,9 +89,9 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
     }
 
 
-    override fun onProfileClick(post: Post) {
+    override fun onProfileClick(postResponse: PostResponse) {
         val intent = Intent(requireContext(), ProfileActivity::class.java)
-        val user = User(post.uid, post.username, "", post.profileImg)
+        val user = User(postResponse.uid, postResponse.username, "", postResponse.profileImg)
         intent.putExtra("user", user)
         startActivity(intent)
     }
@@ -104,23 +103,23 @@ class FeedFragment : onItemClick, Fragment(R.layout.fragment_feed) {
         }
     }
 
-    override fun onLikeClicked(post: Post) {
-        if (post.likedBy.containsKey(viewModel.userId))
-            viewModel.dislikeButtonPressed(post)
+    override fun onLikeClicked(postResponse: PostResponse) {
+        if (postResponse.likedBy.containsKey(viewModel.userId))
+            viewModel.dislikeButtonPressed(postResponse)
         else
-            viewModel.likeButtonPressed(post)
+            viewModel.likeButtonPressed(postResponse)
     }
 
-    override fun onSaveClicked(post: Post) {
-        viewModel.savePost(post)
+    override fun onSaveClicked(postResponse: PostResponse) {
+        viewModel.savePost(postResponse)
     }
 
-    override fun onShareClicked(post: Post) {
+    override fun onShareClicked(postResponse: PostResponse) {
         Timber.d("share clicked")
     }
 
-    override fun onDownloadClicked(post: Post) {
-        viewModel.onDownloadPostPressed(post)
+    override fun onDownloadClicked(postResponse: PostResponse) {
+        viewModel.onDownloadPostPressed(postResponse)
     }
 
     private fun showViewsForLoading() {

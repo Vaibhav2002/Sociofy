@@ -1,13 +1,13 @@
-package com.vaibhav.sociofy.data.models
+package com.vaibhav.sociofy.data.models.remote
 
 import java.io.Serializable
 
 
 data class User(
     val id: String = "",
-    val username: String = "",
+    var username: String = "",
     val email: String = "",
-    val profileImg: String = ""
+    var profileImg: String = ""
 ) : Serializable {
     var bio = ""
     val following = mutableMapOf<String, String>()

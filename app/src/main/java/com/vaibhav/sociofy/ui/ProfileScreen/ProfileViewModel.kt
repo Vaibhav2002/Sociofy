@@ -4,8 +4,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vaibhav.sociofy.data.models.Post
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.PostResponse
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.data.repository.AuthRepository
 import com.vaibhav.sociofy.data.repository.PostRepository
 import com.vaibhav.sociofy.util.Shared.Status
@@ -24,7 +24,7 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _profileStatus = Channel<Status>()
     val profileStatus = _profileStatus.receiveAsFlow()
 
-    private val _userPosts = MutableLiveData<List<Post>>()
+    private val _userPosts = MutableLiveData<List<PostResponse>>()
     val userPosts = _userPosts
 
     init {
@@ -53,12 +53,12 @@ class ProfileViewModel @ViewModelInject constructor(
         }
     }
 
-    fun likeButtonPressed(post: Post) = likePost(post)
-    fun dislikeButtonPressed(post: Post) = dislikePost(post)
+    fun likeButtonPressed(postResponse: PostResponse) = likePost(postResponse)
+    fun dislikeButtonPressed(postResponse: PostResponse) = dislikePost(postResponse)
 
-    private fun likePost(post: Post) {
+    private fun likePost(postResponse: PostResponse) {
         viewModelScope.launch {
-            postRepository.likePost(post, successListener = {
+            postRepository.likePost(postResponse, successListener = {
                 Timber.d("PostLiked")
             }, failureListener = {
                 viewModelScope.launch { _profileStatus.send(Status.Error(it.message!!)) }
@@ -66,9 +66,9 @@ class ProfileViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun dislikePost(post: Post) {
+    private fun dislikePost(postResponse: PostResponse) {
         viewModelScope.launch {
-            postRepository.dislikePost(post, successListener = {
+            postRepository.dislikePost(postResponse, successListener = {
                 Timber.d("PostDisliked")
             }, failureListener = {
                 viewModelScope.launch { _profileStatus.send(Status.Error(it.message!!)) }

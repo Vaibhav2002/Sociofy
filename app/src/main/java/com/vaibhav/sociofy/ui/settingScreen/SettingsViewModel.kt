@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.data.repository.AuthRepository
 
 

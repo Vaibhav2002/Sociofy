@@ -3,14 +3,13 @@ package com.vaibhav.sociofy.ui.HomeScreen.NotificationScreen
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.Post
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.PostResponse
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.databinding.FragmentNotificationsBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity
@@ -30,7 +29,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         notificationAdapter = NotificationAdapter({
             val action =
                 NotificationsFragmentDirections.actionNotificationsFragmentToPostDetailFragment(
-                    Post = Post(),
+                    Post = PostResponse(),
                     postId = it
                 )
             findNavController().navigate(action)

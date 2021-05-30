@@ -7,14 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
 import com.vaibhav.sociofy.databinding.FragmentProfileImageBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeActivity
 import com.vaibhav.sociofy.util.Constants.IMAGE_REQUEST_CODE
+import com.vaibhav.sociofy.util.Shared.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -33,25 +32,23 @@ class ProfileImageFragment : Fragment(R.layout.fragment_profile_image) {
             intent.type = "image/*"
             startActivityForResult(intent, IMAGE_REQUEST_CODE)
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.uploadStatus.collect { status ->
-                when (status) {
-                    ProfileImageViewModel.Companion.UploadStatus.Loading -> binding.loadingAnim.isVisible =
-                        true
-                    ProfileImageViewModel.Companion.UploadStatus.Success -> {
-                        binding.loadingAnim.isVisible = false
-                        requireActivity().startActivity(
-                            Intent(
-                                requireActivity(),
-                                HomeActivity::class.java
-                            )
+        viewModel.uploadStatus.observe(viewLifecycleOwner) { status ->
+            when (status) {
+                is Resource.Loading -> binding.loadingAnim.isVisible =
+                    true
+                is Resource.Success -> {
+                    binding.loadingAnim.isVisible = false
+                    requireActivity().startActivity(
+                        Intent(
+                            requireActivity(),
+                            HomeActivity::class.java
                         )
-                        requireActivity().finish()
-                    }
-                    is ProfileImageViewModel.Companion.UploadStatus.Error -> {
-                        binding.loadingAnim.isVisible = false
-                        Timber.d("error ${status.error}")
-                    }
+                    )
+                    requireActivity().finish()
+                }
+                is Resource.Error -> {
+                    binding.loadingAnim.isVisible = false
+                    Timber.d("error ${status.message}")
                 }
             }
         }

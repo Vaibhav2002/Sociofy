@@ -6,9 +6,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
-import com.vaibhav.sociofy.data.local.PostDao
-import com.vaibhav.sociofy.data.models.*
+import com.vaibhav.sociofy.data.local.downloadedPost.DownloadedPostDao
 import com.vaibhav.sociofy.data.models.local.DownloadedPost
+import com.vaibhav.sociofy.data.models.remote.*
 import com.vaibhav.sociofy.data.remote.Api
 import com.vaibhav.sociofy.util.Shared.urlToBitmap
 import kotlinx.coroutines.Dispatchers
@@ -23,26 +23,26 @@ class PostRepository @Inject constructor(
     private val fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth,
     private val storage: FirebaseStorage,
-    private val postDao: PostDao,
+    private val downloadedPostDao: DownloadedPostDao,
     private val context: Context,
     private val api: Api
 ) {
 
 
     suspend fun getFeedOfFollowers(
-        successListener: (MutableList<Post>) -> Unit,
+        successListener: (MutableList<PostResponse>) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
             authRepository.getCurrentUserDetails({
                 fireStore.collection("posts")
                     .addSnapshotListener { posts, error ->
-                        val postsList: MutableList<Post> = mutableListOf()
+                        val postsList: MutableList<PostResponse> = mutableListOf()
                         if (error != null) {
                             failureListener.invoke(error)
                         } else {
                             for (po in posts!!.documents) {
-                                val pos = po.toObject<Post>()!!
+                                val pos = po.toObject<PostResponse>()!!
                                 if (pos.uid != auth.currentUser!!.uid && it.following.keys.contains(
                                         pos.uid
                                     )
@@ -59,18 +59,18 @@ class PostRepository @Inject constructor(
     }
 
     suspend fun getAllFeedPosts(
-        successListener: (MutableList<Post>) -> Unit,
+        successListener: (MutableList<PostResponse>) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
             fireStore.collection("posts")
                 .addSnapshotListener { posts, error ->
-                    val postsList: MutableList<Post> = mutableListOf()
+                    val postsList: MutableList<PostResponse> = mutableListOf()
                     if (error != null) {
                         failureListener.invoke(error)
                     } else {
                         for (po in posts!!.documents) {
-                            val pos = po.toObject<Post>()!!
+                            val pos = po.toObject<PostResponse>()!!
                             if (pos.uid != auth.currentUser!!.uid)
                                 postsList.add(pos)
                         }
@@ -82,18 +82,18 @@ class PostRepository @Inject constructor(
 
     suspend fun getUsersPosts(
         uid: String,
-        successListener: (List<Post>) -> Unit,
+        successListener: (List<PostResponse>) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
             fireStore.collection("posts").addSnapshotListener { value, error ->
-                val list = mutableListOf<Post>()
+                val list = mutableListOf<PostResponse>()
                 if (error != null)
                     failureListener.invoke(error)
                 else {
                     value?.let {
                         for (post in value.documents) {
-                            val po = post.toObject<Post>()!!
+                            val po = post.toObject<PostResponse>()!!
                             if (po.uid == uid)
                                 list.add(po)
                         }
@@ -106,7 +106,7 @@ class PostRepository @Inject constructor(
 
     suspend fun getPostFromId(
         id: String,
-        successListener: (Post) -> Unit,
+        successListener: (PostResponse) -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO)
@@ -114,7 +114,7 @@ class PostRepository @Inject constructor(
             fireStore.collection("posts").document(id).get()
                 .addOnSuccessListener { post ->
                     if (post.exists() && post != null)
-                        successListener.invoke(post.toObject<Post>()!!)
+                        successListener.invoke(post.toObject<PostResponse>()!!)
                     else
                         failureListener.invoke(Exception("Post not found"))
                 }
@@ -180,7 +180,7 @@ class PostRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             getProfileImageUrl(successListener = { url ->
                 getPostImageUri(filename, successListener = { posturl ->
-                    val post = Post(
+                    val post = PostResponse(
                         posturl,
                         description,
                         user.username,
@@ -271,15 +271,15 @@ class PostRepository @Inject constructor(
 
 
     suspend fun likePost(
-        post: Post,
+        postResponse: PostResponse,
         successListener: () -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
-            val likes = post.likes + 1
-            val likedBy = post.likedBy
+            val likes = postResponse.likes + 1
+            val likedBy = postResponse.likedBy
             likedBy[auth.currentUser!!.uid] = true
-            fireStore.collection("posts").document(post.postUid)
+            fireStore.collection("posts").document(postResponse.postUid)
                 .update("likes", likes, "likedBy", likedBy)
                 .addOnSuccessListener { successListener.invoke() }
                 .addOnFailureListener { failureListener.invoke(it) }
@@ -287,15 +287,15 @@ class PostRepository @Inject constructor(
     }
 
     suspend fun dislikePost(
-        post: Post,
+        postResponse: PostResponse,
         successListener: () -> Unit,
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
-            val likes = post.likes - 1
-            val likedBy = post.likedBy
+            val likes = postResponse.likes - 1
+            val likedBy = postResponse.likedBy
             likedBy.remove(auth.currentUser!!.uid)
-            fireStore.collection("posts").document(post.postUid)
+            fireStore.collection("posts").document(postResponse.postUid)
                 .update("likes", likes, "likedBy", likedBy)
                 .addOnSuccessListener { successListener.invoke() }
                 .addOnFailureListener { failureListener.invoke(it) }
@@ -365,10 +365,10 @@ class PostRepository @Inject constructor(
             .get()
             .addOnSuccessListener { docs ->
                 for (document in docs.documents) {
-                    document.toObject(Post::class.java)?.let { post ->
+                    document.toObject(PostResponse::class.java)?.let { post ->
                         savedPosts.add(
                             SavedPosts(
-                                post = post,
+                                postResponse = post,
                                 timeStamp = post.timeStamp.toString()
                             )
                         )
@@ -383,24 +383,28 @@ class PostRepository @Inject constructor(
 
     //local
 
-    fun getDownloadedPosts() = postDao.getAllDownloadedPosts()
+    fun getDownloadedPosts() = downloadedPostDao.getAllDownloadedPosts()
 
     @ExperimentalCoroutinesApi
-    suspend fun insertPost(post: Post) = withContext(Dispatchers.IO) {
-        val postImage = urlToBitmap(context, post.url).first()
+    suspend fun insertPost(postResponse: PostResponse) = withContext(Dispatchers.IO) {
+        val postImage = urlToBitmap(context, postResponse.url).first()
         Timber.d(postImage.toString())
-        val profileImage = urlToBitmap(context, post.profileImg).first()
+        val profileImage = urlToBitmap(context, postResponse.profileImg).first()
         Timber.d(profileImage.toString())
         val downloadedPost = DownloadedPost(
-            postImage, profileImage, post.description, post.username, post.likes
+            postImage,
+            profileImage,
+            postResponse.description,
+            postResponse.username,
+            postResponse.likes
         )
         Timber.d(downloadedPost.toString())
-        postDao.saveDownloadedPost(downloadedPost)
+        downloadedPostDao.saveDownloadedPost(downloadedPost)
     }
 
 
     suspend fun deleteDownloadedPost(downloadedPost: DownloadedPost) = withContext(Dispatchers.IO) {
-        postDao.deleteDownloadedPost(downloadedPost)
+        downloadedPostDao.deleteDownloadedPost(downloadedPost)
     }
 
 }

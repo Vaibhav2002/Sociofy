@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.vaibhav.sociofy.data.models.Post
+import com.vaibhav.sociofy.data.models.remote.PostResponse
 import com.vaibhav.sociofy.databinding.ProfileScreenPostGridItemBinding
 
-class GridPostsAdapter(private val onImageClick: (Post) -> Unit) :
-    ListAdapter<Post, GridPostsAdapter.viewHolder>(DiffCall()) {
+class GridPostsAdapter(private val onImageClick: (PostResponse) -> Unit) :
+    ListAdapter<PostResponse, GridPostsAdapter.viewHolder>(DiffCall()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
         val binding = ProfileScreenPostGridItemBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,22 +29,22 @@ class GridPostsAdapter(private val onImageClick: (Post) -> Unit) :
             }
         }
 
-        fun bind(data: Post) {
+        fun bind(data: PostResponse) {
             binding.post = data
         }
     }
 
-    class DiffCall : DiffUtil.ItemCallback<Post>() {
+    class DiffCall : DiffUtil.ItemCallback<PostResponse>() {
         override fun areItemsTheSame(
-            oldItem: Post,
-            newItem: Post
+            oldItem: PostResponse,
+            newItem: PostResponse
         ): Boolean {
             return oldItem === newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: Post,
-            newItem: Post
+            oldItem: PostResponse,
+            newItem: PostResponse
         ): Boolean {
             return oldItem == newItem
         }

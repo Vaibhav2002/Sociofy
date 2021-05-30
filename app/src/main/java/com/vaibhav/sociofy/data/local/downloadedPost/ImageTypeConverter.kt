@@ -1,4 +1,4 @@
-package com.vaibhav.sociofy.data.local
+package com.vaibhav.sociofy.data.local.downloadedPost
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

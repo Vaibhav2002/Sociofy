@@ -3,7 +3,6 @@ package com.vaibhav.sociofy.ui.HomeScreen.PostDetailDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -11,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.Post
+import com.vaibhav.sociofy.data.models.remote.PostResponse
 import com.vaibhav.sociofy.databinding.FragmentPostDetailBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.util.Shared.Status
@@ -26,7 +25,7 @@ class PostDetailFragment : DialogFragment() {
     private val sharedViewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentPostDetailBinding
     private val args by navArgs<PostDetailFragmentArgs>()
-    lateinit var post: Post
+    lateinit var postResponse: PostResponse
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentPostDetailBinding.inflate(layoutInflater)
@@ -38,16 +37,17 @@ class PostDetailFragment : DialogFragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         if (args.postId == "null") {
-            post = args.Post
-            binding.post = post
-            Glide.with(this).load(post.profileImg).error(R.drawable.blankuserimg)
+            postResponse = args.Post
+            binding.post = postResponse
+            Glide.with(this).load(postResponse.profileImg).error(R.drawable.blankuserimg)
                 .into(binding.imageView)
-            Glide.with(this).load(post.url).error(R.drawable.blankuserimg).into(binding.imageView2)
+            Glide.with(this).load(postResponse.url).error(R.drawable.blankuserimg)
+                .into(binding.imageView2)
             setLikedButton()
         } else {
             viewModel.getPostFromId(args.postId ?: "")
             viewModel.post.observe(this) {
-                post = it
+                postResponse = it
                 Glide.with(this).load(it.profileImg).error(R.drawable.blankuserimg)
                     .into(binding.imageView)
                 Glide.with(this).load(it.url).error(R.drawable.blankuserimg)
@@ -71,7 +71,7 @@ class PostDetailFragment : DialogFragment() {
         }
 
         binding.likeButton.setOnClickListener {
-            likeButtonPressed(post = post)
+            likeButtonPressed(postResponse = postResponse)
         }
         return yourDialog
     }
@@ -82,18 +82,18 @@ class PostDetailFragment : DialogFragment() {
     }
 
     private fun setLikedButton() {
-        if (post.likedBy.containsKey(sharedViewModel.userId))
+        if (postResponse.likedBy.containsKey(sharedViewModel.userId))
             binding.likeButton.setImageResource(R.drawable.heart_filled)
         else
             binding.likeButton.setImageResource(R.drawable.heart_unselected)
     }
 
-    private fun likeButtonPressed(post: Post) {
-        if (post.likedBy.containsKey(sharedViewModel.userId)) {
-            sharedViewModel.dislikeButtonPressed(post)
+    private fun likeButtonPressed(postResponse: PostResponse) {
+        if (postResponse.likedBy.containsKey(sharedViewModel.userId)) {
+            sharedViewModel.dislikeButtonPressed(postResponse)
             binding.likeButton.setImageResource(R.drawable.heart_unselected)
         } else {
-            sharedViewModel.likeButtonPressed(post)
+            sharedViewModel.likeButtonPressed(postResponse)
             binding.likeButton.setImageResource(R.drawable.heart_filled)
         }
     }

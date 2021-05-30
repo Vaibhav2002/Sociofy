@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vaibhav.sociofy.data.models.Post
+import com.vaibhav.sociofy.data.models.remote.PostResponse
 import com.vaibhav.sociofy.data.repository.PostRepository
 import com.vaibhav.sociofy.util.Shared.Status
 import kotlinx.coroutines.channels.Channel
@@ -18,7 +18,7 @@ class PostDetailViewModel @ViewModelInject constructor(private val postRepositor
     private val _postDetailStatus = Channel<Status>()
     val postDetailStatus = _postDetailStatus.receiveAsFlow()
 
-    private val _post = MutableLiveData<Post>()
+    private val _post = MutableLiveData<PostResponse>()
     val post = _post
 
     fun getPostFromId(id: String) {

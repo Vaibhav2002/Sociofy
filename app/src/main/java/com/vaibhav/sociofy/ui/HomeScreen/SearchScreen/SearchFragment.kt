@@ -3,13 +3,12 @@ package com.vaibhav.sociofy.ui.HomeScreen.SearchScreen
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.databinding.FragmentSearchBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity

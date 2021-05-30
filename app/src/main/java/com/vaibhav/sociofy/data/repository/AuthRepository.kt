@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -365,10 +365,7 @@ class AuthRepository @Inject constructor(
         failureListener: (Exception) -> Unit
     ) {
         withContext(Dispatchers.IO) {
-            val followingList = mutableListOf<String>()
-            for (key in following.keys) {
-                followingList.add(key)
-            }
+            val followingList = following.map { it.key }
 
             fireStore.collection("users").whereIn("id", followingList)
                 .get()

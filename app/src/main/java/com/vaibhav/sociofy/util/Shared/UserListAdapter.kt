@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.databinding.UsersListItemBinding
 
 class UserListAdapter(private val onUserClicked: (User) -> Unit) :

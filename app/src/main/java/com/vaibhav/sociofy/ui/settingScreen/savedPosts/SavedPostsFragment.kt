@@ -3,12 +3,11 @@ package com.vaibhav.sociofy.ui.settingScreen.savedPosts
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.Post
-import com.vaibhav.sociofy.data.models.User
+import com.vaibhav.sociofy.data.models.remote.PostResponse
+import com.vaibhav.sociofy.data.models.remote.User
 import com.vaibhav.sociofy.databinding.FragmentSavedPostsBinding
 import com.vaibhav.sociofy.ui.HomeScreen.feedscreen.FeedAdapter
 import com.vaibhav.sociofy.ui.HomeScreen.feedscreen.onItemClick
@@ -34,7 +33,7 @@ class SavedPostsFragment : Fragment(R.layout.fragment_saved_posts), onItemClick 
             setHasFixedSize(false)
         }
         (activity as SettingsActivity).supportActionBar?.title = "Saved Posts"
-        viewModel.savedPost.observe(viewLifecycleOwner) {
+        viewModel.savedPostResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Error -> {
                     binding.loadingAnim.isVisible = false
@@ -62,29 +61,29 @@ class SavedPostsFragment : Fragment(R.layout.fragment_saved_posts), onItemClick 
 
     }
 
-    override fun onProfileClick(post: Post) {
+    override fun onProfileClick(postResponse: PostResponse) {
         val intent = Intent(requireContext(), ProfileActivity::class.java)
-        val user = User(post.uid, post.username, "", post.profileImg)
+        val user = User(postResponse.uid, postResponse.username, "", postResponse.profileImg)
         intent.putExtra("user", user)
         startActivity(intent)
     }
 
-    override fun onLikeClicked(post: Post) {
-        if (post.likedBy.containsKey(viewModel.userId))
-            viewModel.dislikeButtonPressed(post)
+    override fun onLikeClicked(postResponse: PostResponse) {
+        if (postResponse.likedBy.containsKey(viewModel.userId))
+            viewModel.dislikeButtonPressed(postResponse)
         else
-            viewModel.likeButtonPressed(post)
+            viewModel.likeButtonPressed(postResponse)
     }
 
-    override fun onShareClicked(post: Post) {
-
-    }
-
-    override fun onSaveClicked(post: Post) {
+    override fun onShareClicked(postResponse: PostResponse) {
 
     }
 
-    override fun onDownloadClicked(post: Post) {
+    override fun onSaveClicked(postResponse: PostResponse) {
+
+    }
+
+    override fun onDownloadClicked(postResponse: PostResponse) {
 
     }
 
