@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.vaibhav.sociofy.data.models.remote.User
+import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.ActivityUserListBinding
 import com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity
 import com.vaibhav.sociofy.util.Constants

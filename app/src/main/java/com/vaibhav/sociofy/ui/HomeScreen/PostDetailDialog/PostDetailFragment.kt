@@ -1,8 +1,11 @@
 package com.vaibhav.sociofy.ui.HomeScreen.PostDetailDialog
 
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -10,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.remote.PostResponse
+import com.vaibhav.sociofy.data.models.Post
 import com.vaibhav.sociofy.databinding.FragmentPostDetailBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.util.Shared.Status
@@ -25,29 +28,30 @@ class PostDetailFragment : DialogFragment() {
     private val sharedViewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentPostDetailBinding
     private val args by navArgs<PostDetailFragmentArgs>()
-    lateinit var postResponse: PostResponse
+    lateinit var post: Post
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentPostDetailBinding.inflate(layoutInflater)
         val yourDialog = Dialog(requireContext())
         yourDialog.create()
         yourDialog.setContentView(binding.root)
+        yourDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         yourDialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         if (args.postId == "null") {
-            postResponse = args.Post
-            binding.post = postResponse
-            Glide.with(this).load(postResponse.profileImg).error(R.drawable.blankuserimg)
+            post = args.Post
+            binding.post = post
+            Glide.with(this).load(post.profileImg).error(R.drawable.blankuserimg)
                 .into(binding.imageView)
-            Glide.with(this).load(postResponse.url).error(R.drawable.blankuserimg)
+            Glide.with(this).load(post.url).error(R.drawable.blankuserimg)
                 .into(binding.imageView2)
             setLikedButton()
         } else {
             viewModel.getPostFromId(args.postId ?: "")
             viewModel.post.observe(this) {
-                postResponse = it
+                post = it
                 Glide.with(this).load(it.profileImg).error(R.drawable.blankuserimg)
                     .into(binding.imageView)
                 Glide.with(this).load(it.url).error(R.drawable.blankuserimg)
@@ -71,7 +75,7 @@ class PostDetailFragment : DialogFragment() {
         }
 
         binding.likeButton.setOnClickListener {
-            likeButtonPressed(postResponse = postResponse)
+            likeButtonPressed(post = post)
         }
         return yourDialog
     }
@@ -82,18 +86,18 @@ class PostDetailFragment : DialogFragment() {
     }
 
     private fun setLikedButton() {
-        if (postResponse.likedBy.containsKey(sharedViewModel.userId))
+        if (post.likedBy.containsKey(sharedViewModel.userId))
             binding.likeButton.setImageResource(R.drawable.heart_filled)
         else
             binding.likeButton.setImageResource(R.drawable.heart_unselected)
     }
 
-    private fun likeButtonPressed(postResponse: PostResponse) {
-        if (postResponse.likedBy.containsKey(sharedViewModel.userId)) {
-            sharedViewModel.dislikeButtonPressed(postResponse)
+    private fun likeButtonPressed(post: Post) {
+        if (post.likedBy.containsKey(sharedViewModel.userId)) {
+            sharedViewModel.dislikeButtonPressed(post)
             binding.likeButton.setImageResource(R.drawable.heart_unselected)
         } else {
-            sharedViewModel.likeButtonPressed(postResponse)
+            sharedViewModel.likeButtonPressed(post)
             binding.likeButton.setImageResource(R.drawable.heart_filled)
         }
     }

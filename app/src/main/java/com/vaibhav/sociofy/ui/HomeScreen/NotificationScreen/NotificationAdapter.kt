@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.vaibhav.sociofy.data.models.remote.Notification
+import com.vaibhav.sociofy.data.models.Notification
 import com.vaibhav.sociofy.databinding.NotificationItemBinding
 
 class NotificationAdapter(

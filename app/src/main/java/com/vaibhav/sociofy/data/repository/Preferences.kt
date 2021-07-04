@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
-import com.vaibhav.sociofy.data.models.remote.User
+import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.util.Constants
 import com.vaibhav.sociofy.util.checkDarkMode
 import javax.inject.Inject

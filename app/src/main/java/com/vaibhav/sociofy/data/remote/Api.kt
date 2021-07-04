@@ -1,6 +1,6 @@
 package com.vaibhav.sociofy.data.remote
 
-import com.vaibhav.sociofy.data.models.remote.PushNotification
+import com.vaibhav.sociofy.data.models.PushNotification
 import com.vaibhav.sociofy.util.FcmUtils.API_KEY
 import com.vaibhav.sociofy.util.FcmUtils.CONTENT_TYPE
 import okhttp3.ResponseBody

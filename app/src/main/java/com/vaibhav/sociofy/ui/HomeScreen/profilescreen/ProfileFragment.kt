@@ -6,13 +6,14 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.remote.User
+import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.FragmentProfileBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.ui.UserListScreen.UserListActivity
@@ -76,6 +77,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             Glide.with(this).load(user.profileImg).error(R.drawable.blankuserimg)
                 .into(binding.circularImageView)
         })
+
+
         viewModel.userPosts.observe(viewLifecycleOwner, { posts ->
             binding.postsCount.text = posts.size.toString()
             if (posts.isEmpty())

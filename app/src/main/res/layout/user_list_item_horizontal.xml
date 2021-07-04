@@ -7,7 +7,7 @@
 
         <variable
             name="user"
-            type="com.vaibhav.sociofy.data.models.remote.User" />
+            type="com.vaibhav.sociofy.data.models.User" />
     </data>
 
     <LinearLayout

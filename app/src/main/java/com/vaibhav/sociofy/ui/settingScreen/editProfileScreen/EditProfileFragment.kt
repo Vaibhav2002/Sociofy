@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -12,12 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.remote.User
+import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.FragmentEditProfileBinding
 import com.vaibhav.sociofy.ui.settingScreen.SettingsActivity
 import com.vaibhav.sociofy.ui.settingScreen.SettingsViewModel
 import com.vaibhav.sociofy.util.Constants
 import com.vaibhav.sociofy.util.Shared.Status
+import com.vaibhav.sociofy.util.setProfileImage
 import com.vaibhav.sociofy.util.showSuccessToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

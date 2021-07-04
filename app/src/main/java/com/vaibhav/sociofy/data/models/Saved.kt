@@ -1,4 +1,4 @@
-package com.vaibhav.sociofy.data.models.remote
+package com.vaibhav.sociofy.data.models
 
 data class Saved(
     val userId: String = "",

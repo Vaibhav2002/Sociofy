@@ -46,7 +46,7 @@ class NotificationHelper @Inject constructor(private val context: Context) {
                     .setContentText(description)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                    .setSmallIcon(R.mipmap.sociofy_logo_round)
                     .build()
             } else {
                 NotificationCompat.Builder(context)
@@ -54,7 +54,7 @@ class NotificationHelper @Inject constructor(private val context: Context) {
                     .setContentText(description)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                    .setSmallIcon(R.mipmap.sociofy_logo_round)
                     .build()
             }
         notificationManager.notify(getNotificationId(), notification)

@@ -7,18 +7,19 @@
 
         <variable
             name="post"
-            type="com.vaibhav.sociofy.data.models.remote.PostResponse" />
+            type="com.vaibhav.sociofy.data.models.Post" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:layout_margin="16dp"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             style="@style/cardItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
             tools:context=".ui.HomeScreen.PostDetailDialog.PostDetailFragment">
 
@@ -97,6 +98,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginEnd="16dp"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/like_button"
                     app:layout_constraintEnd_toStartOf="@+id/like_button"
                     app:layout_constraintTop_toTopOf="@+id/like_button"

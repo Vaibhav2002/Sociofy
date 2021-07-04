@@ -3,16 +3,18 @@ package com.vaibhav.sociofy.ui.HomeScreen.SearchScreen
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.remote.User
+import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.databinding.FragmentSearchBinding
 import com.vaibhav.sociofy.ui.HomeScreen.HomeViewModel
 import com.vaibhav.sociofy.ui.ProfileScreen.ProfileActivity
 import com.vaibhav.sociofy.util.Shared.PostGridAdapterSmall
+import com.vaibhav.sociofy.util.Shared.Resource
 import com.vaibhav.sociofy.util.Shared.Status
 import com.vaibhav.sociofy.util.Shared.UserListHorizontalAdapter
 import com.vaibhav.sociofy.util.showErrorToast
@@ -56,9 +58,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             else
                 postAdapter.submitList(it)
         })
-
         viewModel.userList.observe(viewLifecycleOwner, {
-            userAdapter.submitList(it)
+            when (it) {
+                is Resource.Error -> showViewsForError(it.message)
+                is Resource.Loading -> binding.loadingAnim.isVisible = true
+                is Resource.Success -> {
+                    binding.loadingAnim.isVisible = false
+                    userAdapter.submitList(it.data ?: emptyList())
+                }
+            }
         })
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.searchScreenStatus.collect { status ->

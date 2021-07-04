@@ -1,15 +1,17 @@
 package com.vaibhav.sociofy.ui.ProfileScreen
 
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.remote.PostResponse
+import com.vaibhav.sociofy.data.models.Post
 import com.vaibhav.sociofy.databinding.FragmentPostDetailBinding
 
-class PostDetailDialog(private val userId: String, private val postResponse: PostResponse) :
+class PostDetailDialog(private val userId: String, private val post: Post) :
     DialogFragment() {
 
     private lateinit var binding: FragmentPostDetailBinding
@@ -19,19 +21,20 @@ class PostDetailDialog(private val userId: String, private val postResponse: Pos
         val yourDialog = Dialog(requireContext())
         yourDialog.create()
         yourDialog.setContentView(binding.root)
+        yourDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         yourDialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        binding.post = postResponse
-        Glide.with(this).load(postResponse.profileImg).error(R.drawable.blankuserimg)
+        binding.post = post
+        Glide.with(this).load(post.profileImg).error(R.drawable.blankuserimg)
             .into(binding.imageView)
-        Glide.with(this).load(postResponse.url).error(R.drawable.blankuserimg)
+        Glide.with(this).load(post.url).error(R.drawable.blankuserimg)
             .into(binding.imageView2)
         setLikedButton()
 
         binding.likeButton.setOnClickListener {
-            likeButtonPressed(postResponse)
+            likeButtonPressed(post)
         }
         binding.closeButton.setOnClickListener {
             dismiss()
@@ -41,18 +44,18 @@ class PostDetailDialog(private val userId: String, private val postResponse: Pos
     }
 
     private fun setLikedButton() {
-        if (postResponse.likedBy.containsKey(userId))
+        if (post.likedBy.containsKey(userId))
             binding.likeButton.setImageResource(R.drawable.heart_filled)
         else
             binding.likeButton.setImageResource(R.drawable.heart_unselected)
     }
 
-    private fun likeButtonPressed(postResponse: PostResponse) {
-        if (postResponse.likedBy.containsKey(userId)) {
-            (activity as ProfileActivity).viewModel.dislikeButtonPressed(postResponse)
+    private fun likeButtonPressed(post: Post) {
+        if (post.likedBy.containsKey(userId)) {
+            (activity as ProfileActivity).viewModel.dislikeButtonPressed(post)
             binding.likeButton.setImageResource(R.drawable.heart_unselected)
         } else {
-            (activity as ProfileActivity).viewModel.likeButtonPressed(postResponse)
+            (activity as ProfileActivity).viewModel.likeButtonPressed(post)
             binding.likeButton.setImageResource(R.drawable.heart_filled)
         }
     }

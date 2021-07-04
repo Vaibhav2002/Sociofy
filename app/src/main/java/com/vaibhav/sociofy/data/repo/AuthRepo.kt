@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
-import com.vaibhav.sociofy.data.models.remote.User
+import com.vaibhav.sociofy.data.models.User
 import com.vaibhav.sociofy.data.repository.Preferences
 import com.vaibhav.sociofy.util.Shared.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -111,9 +111,11 @@ class AuthRepo @Inject constructor(
         return storage.reference.child(filename).downloadUrl.await().toString()
     }
 
-    suspend fun getAllUsers() {
+    suspend fun getAllUsers() = flow<Resource<List<User>>> {
+        emit(Resource.Loading())
         val users = fireStore.collection(USER_COLLECTION).get().await().toObjects(User::class.java)
-    }
+        emit(Resource.Success(users))
+    }.catch { emit(Resource.Error(it.message.toString())) }
 
     @ExperimentalCoroutinesApi
     fun getUserDetails(userId: String) = callbackFlow<Resource<User>> {

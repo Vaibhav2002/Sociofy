@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.vaibhav.sociofy.R
-import com.vaibhav.sociofy.data.models.remote.Notification
+import com.vaibhav.sociofy.data.models.Notification
 
 @BindingAdapter("setProfileImage")
 fun ImageView.setProfileImage(url: String) {

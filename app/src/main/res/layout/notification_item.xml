@@ -7,7 +7,7 @@
 
         <variable
             name="notification"
-            type="com.vaibhav.sociofy.data.models.remote.Notification" />
+            type="com.vaibhav.sociofy.data.models.Notification" />
 
     </data>
 

@@ -1,9 +1,9 @@
-package com.vaibhav.sociofy.data.models.remote
+package com.vaibhav.sociofy.data.models
 
 import java.io.Serializable
 
 
-data class PostResponse(
+data class Post(
     val url: String = "",
     val description: String = "",
     val username: String = "",

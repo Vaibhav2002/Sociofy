@@ -12,6 +12,6 @@ data class DownloadedPost(
     val username: String,
     var likes: Int = 0,
     var timeStamp: Long = System.currentTimeMillis(),
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    @PrimaryKey
+    var id: String = "",
 )
