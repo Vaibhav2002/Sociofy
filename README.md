@@ -17,13 +17,16 @@ Clone the repository on your machine. Open the project on your IDE and connect i
 - Clean and Simple Material UI.
 - It supports dark theme too 🌗.
 
+![](media/dark_light.png)
+
 ## 📸 Screenshots
 
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
-| ![](media/login.png) | ![](media/signup.png) | ![](media/profileimg.png) |
-| ![](media/feed.png) | ![](media/search.png) | ![](media/profile.png) |
-| ![](media/profile2.png) | ![](media/notification.png) | ![](media/Screenshot_1614858247.png) |
+| ![](media/splash.jpg) | ![](media/login.jpg) | ![](media/register.jpg) |
+| ![](media/feed.jpg) | ![](media/search.jpg) | ![](media/profile.jpg) |
+| ![](media/profile2.jpg) | ![](media/notification.jpg) | ![](media/upload.jpg) |
+| ![](media/postDetail.jpg) | ![](media/profileImg.jpg) | ![](media/editProfile.jpg) |
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
